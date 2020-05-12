@@ -10,18 +10,14 @@
       "url": "http://localhost:8080",
       "webRoot": "${workspaceFolder}"
     },
-
     {
       "type": "node",
-      "request": "launch",
-      "name": "Debug Nest Framework",
-      "args": ["${workspaceFolder}/apps/api/src/main.ts"],
-      "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
-      "sourceMaps": true,
-      "cwd": "${workspaceRoot}",
+      "request": "attach",
+      "name": "Attach NestJS WS",
+      "port": 3333,
+      "restart": true,
+      "stopOnEntry": false,
       "protocol": "inspector"
     }
-
-
   ]
 }
