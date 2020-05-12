@@ -1,0 +1,6 @@
+<div class="col-12 game-book" (click)="setCompleted()">
+    <div class="row game-book-row"  [ngClass]="{'completed' : this.game.completed}" [style.background-image]="background" >
+
+    </div>
+    <i *ngIf="game.completed" class="fas fa-check-circle"></i>
+</div>

@@ -7,5 +7,6 @@ export interface Game {
   has_community_visible_stats: boolean,
   playtime_windows_forever: number,
   playtime_mac_forever: number,
-  playtime_linux_forever: number
+  playtime_linux_forever: number,
+  completed: boolean;
 }

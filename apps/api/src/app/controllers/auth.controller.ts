@@ -16,7 +16,6 @@ export class AuthController {
   @UseGuards(SteamAuthGuard)
   async steamLoginCallback(@Request() req, @Res() res)
   {
-    console.log(req.user.id)
     this.authService.setUserInfo(req.user);
     res.redirect('http://localhost:4200/');
   }
