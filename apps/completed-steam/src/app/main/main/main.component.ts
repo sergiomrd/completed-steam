@@ -40,7 +40,7 @@ export class MainComponent implements OnInit {
   }
 
   login() {
-    window.location.href = 'https://tranquil-ridge-99776.herokuapp.com/api/auth/steam';
+    window.location.href = 'https://completed-steam-api.herokuapp.com/api/auth/steam';
   }
 
   getOwnedGames(id: string) {
