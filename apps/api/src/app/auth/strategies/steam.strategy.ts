@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 export class SteamStrategy extends PassportStrategy(Strategy, 'steam') {
   constructor() {
     super({
-      returnURL: 'http://localhost:4200/api/auth/steam/callback',
+      returnURL: 'https://completed-steam-api.herokuapp.com//api/auth/steam/callback',
       realm: 'http://localhost:4200/',
       apiKey: environment.WEB_API,
       profile: true
