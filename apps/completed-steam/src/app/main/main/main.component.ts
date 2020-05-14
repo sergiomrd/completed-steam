@@ -18,15 +18,9 @@ export class MainComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let steamid;
-    await this.http.get('api/user/marod').toPromise().then((response: VanityUserResponse) => {
-      steamid = response.steamid;
-    });
-
-
     let id = localStorage.getItem('id')
     if(!id) {
-      this.http.get(`api/auth/profile`).subscribe((response) => {
+      this.http.get(`https://completed-steam-api.herokuapp.com/api/auth/profile`).subscribe((response) => {
         if(response) {
           localStorage.setItem('id', response['id']);
           this.getOwnedGames( response['id']);
@@ -45,7 +39,7 @@ export class MainComponent implements OnInit {
   }
 
   getOwnedGames(id: string) {
-    this.http.get(`api/games/owned/${id}`, {params: {showAppInfo: 'true', showFreeGames: 'false', limit: '20'}}).subscribe((response: OwnedGamesResponse) => {
+    this.http.get(`https://completed-steam-api.herokuapp.com/api/games/owned/${id}`, {params: {showAppInfo: 'true', showFreeGames: 'false', limit: '20'}}).subscribe((response: OwnedGamesResponse) => {
       this.games = response.games;
     })
   }
