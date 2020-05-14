@@ -8,7 +8,7 @@ export class SteamStrategy extends PassportStrategy(Strategy, 'steam') {
   constructor() {
     super({
       returnURL: 'https://completed-steam-api.herokuapp.com/api/auth/steam/callback',
-      realm: 'http://localhost:4200/',
+      realm: 'https://completed-steam-api.herokuapp.com/',
       apiKey: environment.WEB_API,
       profile: true
     });
