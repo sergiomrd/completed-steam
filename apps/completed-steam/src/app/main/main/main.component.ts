@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Message } from '@completed-steam/api-interfaces';
 import { Router, ActivatedRoute } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'completed-steam-main',
@@ -20,7 +21,7 @@ export class MainComponent implements OnInit {
   async ngOnInit() {
     let id = localStorage.getItem('id')
     if(!id) {
-      this.http.get(`https://completed-steam-api.herokuapp.com/api/auth/profile`).subscribe((response) => {
+      this.http.get(`${environment.API}api/auth/profile`).subscribe((response) => {
         if(response) {
           localStorage.setItem('id', response['id']);
           this.getOwnedGames( response['id']);
@@ -34,12 +35,12 @@ export class MainComponent implements OnInit {
   }
 
   login() {
-    window.location.href = 'https://completed-steam-api.herokuapp.com/api/auth/steam';
+    window.location.href = `${environment.API}api/auth/steam`;
     // test
   }
 
   getOwnedGames(id: string) {
-    this.http.get(`https://completed-steam-api.herokuapp.com/api/games/owned/${id}`, {params: {showAppInfo: 'true', showFreeGames: 'false', limit: '20'}}).subscribe((response: OwnedGamesResponse) => {
+    this.http.get(`${environment.API}api/games/owned/${id}`, {params: {showAppInfo: 'true', showFreeGames: 'false', limit: '20'}}).subscribe((response: OwnedGamesResponse) => {
       this.games = response.games;
     })
   }

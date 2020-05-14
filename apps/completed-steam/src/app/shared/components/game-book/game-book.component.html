@@ -1,6 +1,7 @@
 <div class="col-12 game-book" (click)="setCompleted()">
     <div class="row game-book-row"  [ngClass]="{'completed' : this.game.completed}" [style.background-image]="background" >
-
+        <div class="overlay" [style.background-image]="background"></div>
+        <p class="name">{{this.game.name}}</p>
     </div>
     <i *ngIf="game.completed" class="fas fa-check-circle"></i>
 </div>

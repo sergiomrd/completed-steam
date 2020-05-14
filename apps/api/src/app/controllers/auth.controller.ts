@@ -1,6 +1,7 @@
 import { Controller, Get, Param, Query, UseGuards, Request, Res, Post, Logger, Req } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { SteamAuthGuard } from '../auth/guards/steam-auth.guard';
+import { environment } from '../../environments/environment';
 
 @Controller('auth')
 export class AuthController {
@@ -17,7 +18,7 @@ export class AuthController {
   async steamLoginCallback(@Request() req, @Res() res)
   {
     this.authService.setUserInfo(req.user);
-    res.redirect('http://localhost:4200/');
+    res.redirect(`${environment.FRONTEND_URL}`);
   }
 
   @Get('profile')

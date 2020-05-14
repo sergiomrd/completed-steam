@@ -56,6 +56,14 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/completed-steam/src/environments/environment.ts",
+                  "with": "apps/completed-steam/src/environments/environment.dev.ts"
+                }
+              ]
             }
           }
         },
@@ -68,6 +76,9 @@
           "configurations": {
             "production": {
               "browserTarget": "completed-steam:build:production"
+            },
+            "dev": {
+              "browserTarget": "completed-steam:build:dev"
             }
           }
         },
@@ -113,6 +124,9 @@
           "configurations": {
             "production": {
               "devServerTarget": "completed-steam:serve:production"
+            },
+            "dev": {
+              "devServerTarget": "completed-steam:serve:dev"
             }
           }
         },
@@ -151,6 +165,17 @@
                   "with": "apps/api/src/environments/environment.prod.ts"
                 }
               ]
+            },
+            "dev": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api/src/environments/environment.ts",
+                  "with": "apps/api/src/environments/environment.dev.ts"
+                }
+              ]
             }
           }
         },
@@ -158,6 +183,14 @@
           "builder": "@nrwl/node:execute",
           "options": {
             "buildTarget": "api:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "api:build:production"
+            },
+            "dev": {
+              "buildTarget": "api:build:dev"
+            }
           }
         },
         "lint": {
