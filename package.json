@@ -26,7 +26,12 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
-    "start:debug": "ng serve api --debug --watch"
+    "start:debug": "ng serve api --debug --watch",
+    "start:prod":"node dist/apps/api/main.js",
+    "prestart:prod": "ng build api --prod"
+  },
+  "engines": {
+    "node": "10.x"
   },
   "private": true,
   "dependencies": {
