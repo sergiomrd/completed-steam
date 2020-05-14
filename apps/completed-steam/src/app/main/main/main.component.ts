@@ -40,7 +40,7 @@ export class MainComponent implements OnInit {
   }
 
   getOwnedGames(id: string) {
-    this.http.get(`${environment.API}api/games/owned/${id}`, {params: {showAppInfo: 'true', showFreeGames: 'false', limit: '20'}}).subscribe((response: OwnedGamesResponse) => {
+    this.http.get(`${environment.API}api/games/owned/${id}`, {params: {showAppInfo: 'true', showFreeGames: 'false', limit: '100'}}).subscribe((response: OwnedGamesResponse) => {
       this.games = response.games;
     })
   }

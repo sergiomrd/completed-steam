@@ -8,14 +8,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MainComponent } from './main/main/main.component';
 import { GameBookComponent } from './shared/components/game-book/game-book.component';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
-  { path: '**', component: MainComponent, pathMatch: 'full'},
-  { path: 'login', redirectTo: '/api/auth/steam'}
+  { path: '**', redirectTo: '/login', pathMatch: 'full'},
+  { path: 'login', component: LoginComponent}
 ];
 
 @NgModule({
-  declarations: [AppComponent, MainComponent, GameBookComponent, BackgroundImagePipe, ValidUrlPipe],
+  declarations: [AppComponent, MainComponent, GameBookComponent, BackgroundImagePipe, ValidUrlPipe, HeaderComponent, LoginComponent],
   imports: [BrowserModule, HttpClientModule, NgbModule, RouterModule.forRoot(routes)],
   providers: [BackgroundImagePipe, ValidUrlPipe],
   exports: [RouterModule, BackgroundImagePipe, ValidUrlPipe],

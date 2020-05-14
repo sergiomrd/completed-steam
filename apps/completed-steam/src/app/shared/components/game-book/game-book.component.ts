@@ -12,13 +12,15 @@ import { Component, OnInit, Input } from '@angular/core';
 export class GameBookComponent implements OnInit {
   background: string;
   imageUrl: string;
+  imageTypes: string[];
   @Input() game: Game;
 
   constructor(private bgPipe: BackgroundImagePipe, private validUrl: ValidUrlPipe, private http: HttpClient) { 
   }
 
    ngOnInit() {
-    this.imageUrl = `https://steamcdn-a.akamaihd.net/steam/apps/${this.game.appid}/library_600x900.jpg`;
+    this.imageTypes = ['library_600x900.jpg', 'library_hero.jpg', 'header.jpg', 'logo.png'];
+    this.imageUrl = `https://steamcdn-a.akamaihd.net/steam/apps/${this.game.appid}/${this.imageTypes[0]}`;
     this.getImage(this.imageUrl);
   }
 
@@ -26,7 +28,10 @@ export class GameBookComponent implements OnInit {
     this.http.get(imageUrl, {responseType: 'blob'}).subscribe(data => {
       this.background = this.bgPipe.transform(imageUrl);
     }, ((error: HttpErrorResponse) => {
-      // this.getImage(`https://steamcdn-a.akamaihd.net/steam/apps/${this.game.appid}/header.jpg`);
+      if(this.imageTypes.length > 0) {
+        this.imageTypes.shift();
+        this.getImage(`https://steamcdn-a.akamaihd.net/steam/apps/${this.game.appid}/${this.imageTypes[0]}`);
+      }
     }));
   }
 
