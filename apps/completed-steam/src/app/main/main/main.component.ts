@@ -41,6 +41,7 @@ export class MainComponent implements OnInit {
 
   login() {
     window.location.href = 'https://completed-steam-api.herokuapp.com/api/auth/steam';
+    // test
   }
 
   getOwnedGames(id: string) {
