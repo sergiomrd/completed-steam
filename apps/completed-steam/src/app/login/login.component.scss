@@ -4,16 +4,35 @@
   .login-container {
     height: 100vh;
     width: 100vw;
-    align-content: center;
     text-align: center;
+
+    .title {
+        align-self: center;
+        font-weight: 100;
+        font-size: 5vh;
+
+        .text {
+            display: inline-block;
+            margin: 0;
+        }
+
+        .icon {
+            opacity: 0.5;
+        }
+    }
 
     .login-steam {
         margin-bottom: 0.6%;
+
+        .error {
+            margin:0;
+        }
       .steam-container {
         background: #212934;
         padding: 10px;
         cursor: pointer;
         border: 1px solid #85898e;
+        transition: all 0.3s ease-out;
 
         .icon {
           display: inline-block;
@@ -23,6 +42,11 @@
         .text {
           display: inline-block;
           margin: 0;
+        }
+
+        &:hover {
+            transform: translateY(-10%);
+            transition: all 0.2s ease-in;
         }
       }
     }

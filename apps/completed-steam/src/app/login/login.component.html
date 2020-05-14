@@ -1,14 +1,23 @@
 <section id="login" class="container-fluid">
   <div class="row login-container">
+    <div class="col-12 title">
+        <div class="row">
+            <div class="col-12">
+                <p class="text">IS STEAM C<i class="far fa-check-circle icon"></i>MPLETED?</p>
+
+            </div>
+        </div>
+    </div>
     <div class="col-12">
       <div class="row">
         <div class="col-12 login-steam">
           <div class="row justify-content-center">
-            <div class="col-auto steam-container">
+            <div class="col-auto steam-container" (click)="login()">
               <i class="fab fa-steam-symbol icon"></i>
               <p class="text">Sign through STEAM</p>
             </div>
           </div>
+          <p class="error" *ngIf="showLoginError">An error has ocurred</p>
         </div>
       </div>
       <div class="row">
