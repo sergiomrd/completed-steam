@@ -26,6 +26,10 @@ export class HeaderComponent implements OnInit {
     })
   }
 
+  goToProfile(){
+    window.open(this.userInfo.profileurl, '_blank');
+  }
+
   logout(){
     localStorage.removeItem('id');
     this.router.navigate(['/login']);

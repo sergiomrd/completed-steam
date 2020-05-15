@@ -9,12 +9,12 @@ export class GameController {
   @Get('owned/:id')
   getOwnedGamesByUser(@Param('id') id, @Query('showAppInfo') showAppInfo: boolean, @Query('showFreeGames') showFreeGames: boolean, @Query('limit') limit: number) {
     return this.gameService.getOwnedGames(id, showAppInfo, showFreeGames).pipe(map((response) => {
-      if(limit) {
+      if(limit && response && response.data['response'] && response.data['response'].games) {
         response.data['response'].games = response.data['response'].games.slice(0, limit);
         return response.data['response'];
       } else {
         return response.data['response'];
       }
-    }) )
+    }))
   }
 }

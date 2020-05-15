@@ -1,3 +1,4 @@
+import { DatabaseService } from './../../shared/services/database/database.service';
 import { UserService } from './../../shared/services/user/user.service';
 import { VanityUserResponse, OwnedGamesResponse } from './../../../../../api/src/app/models/user.interface';
 import { Game } from './../../../../../api/src/app/models/game.interface';
@@ -15,12 +16,14 @@ import { environment } from '../../../environments/environment';
 export class MainComponent implements OnInit {
   loginWindow: any;
   games: Game[];
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private database: DatabaseService) {
 
   }
 
   async ngOnInit() {
     const id = localStorage.getItem('id');
+    this.database.createUser({name: "test", steamid: id, completedGames: ['111']});
+    this.database.findUser(id);
     this.getOwnedGames(id);
   }
 

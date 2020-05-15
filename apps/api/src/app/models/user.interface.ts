@@ -1,3 +1,4 @@
+import { Document } from 'mongoose';
 import { Game } from './game.interface';
 export interface VanityUserResponse {
     steamid: string,
@@ -20,3 +21,10 @@ export interface PlayerSummaries {
     avatarmedium:string,
     avatarfull:string,
 }
+
+export interface User extends Document {
+    id: string;
+    steamid: string;
+    completedGames: string[];
+}
+

@@ -1,9 +1,10 @@
-import { OwnedGamesResponse, PlayerSummaries } from './../models/user.interface';
+import { PlayerSummaries} from './../models/user.interface';
 import { VanityUserResponse } from '../models/user.interface';
 import { environment } from './../../environments/environment';
 import { HttpParams } from '@angular/common/http';
 import { Injectable, HttpService } from '@nestjs/common';
 import { Observable } from 'rxjs';
+import { InjectModel } from '@nestjs/mongoose';
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
 
 @Injectable()

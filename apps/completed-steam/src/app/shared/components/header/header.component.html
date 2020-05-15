@@ -1,14 +1,15 @@
 <section id="header" class="container-fluid">
   <div *ngIf="this.userInfo" class="row header">
-      <div class="col-auto header-avatar">
-        <img [src]="this.userInfo.avatar">
-      </div>
-      <div class="col-auto header-name">
-        <p class="name">{{this.userInfo.personaname}}</p>
-      </div>
-      <div class="col-8 header-logout">
-        <p class="text" (click)="logout()">Logout</p>
-      </div>
+    <div class="col-auto header-avatar">
+      <a [href]="this.userInfo.profileurl"><img [src]="this.userInfo.avatar"></a>
+
+    </div>
+    <div class="col-auto header-name">
+      <p class="name">{{this.userInfo.personaname}}</p>
+    </div>
+    <div class="col-8 header-logout">
+      <p class="text" (click)="logout()">Logout</p>
+    </div>
   </div>
 </section>
 <div class="line"></div>
