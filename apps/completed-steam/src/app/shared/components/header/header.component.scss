@@ -1,0 +1,45 @@
+#header {
+  background: #212934;
+
+  .header {
+    height: 50px;
+    width: 100%;
+    z-index: 999;
+    align-items: center;
+
+    &-avatar {
+      img {
+        border: 1px solid rgba(102, 204, 255, 1);
+        border: 1px solid #85898e;
+        
+      }
+    }
+
+    &-name {
+      padding: 0;
+      .name {
+        color: rgba(102, 204, 255, 1);
+        margin: 0;
+      }
+    }
+
+    &-logout {
+      color: #747677;
+      cursor: pointer;
+      .text {
+        margin:0;
+
+        &:hover {
+          color: #b9b9b9;
+        }
+      }
+    }
+
+  }
+}
+.line {
+  height: 1px;
+  background: linear-gradient(to left, #2d333c, #85898e);
+  width: 100%;
+  margin-right: 15px;
+}

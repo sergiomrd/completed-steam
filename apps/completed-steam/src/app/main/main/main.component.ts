@@ -1,3 +1,4 @@
+import { UserService } from './../../shared/services/user/user.service';
 import { VanityUserResponse, OwnedGamesResponse } from './../../../../../api/src/app/models/user.interface';
 import { Game } from './../../../../../api/src/app/models/game.interface';
 import { Component, OnInit } from '@angular/core';
@@ -19,24 +20,8 @@ export class MainComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let id = localStorage.getItem('id')
-    if(!id) {
-      this.http.get(`${environment.API}api/auth/profile`).subscribe((response) => {
-        if(response) {
-          localStorage.setItem('id', response['id']);
-          this.getOwnedGames( response['id']);
-        }
-      })
-    } else {
-      this.getOwnedGames(id);
-    }
-
-
-  }
-
-  login() {
-    window.location.href = `${environment.API}api/auth/steam`;
-    // test
+    const id = localStorage.getItem('id');
+    this.getOwnedGames(id);
   }
 
   getOwnedGames(id: string) {

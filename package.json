@@ -30,6 +30,7 @@
     "start:prod":"node dist/apps/api/main.js",
     "prestart:prod": "ng build api --prod",
     "heroku-postbuild": "ng build api --prod"
+    
   },
   "engines": {
     "node": "10.x"

@@ -17,12 +17,6 @@ export class AuthController {
   @UseGuards(SteamAuthGuard)
   async steamLoginCallback(@Request() req, @Res() res)
   {
-    this.authService.setUserInfo(req.user);
-    res.redirect(`${environment.FRONTEND_URL}`);
-  }
-
-  @Get('profile')
-  getProfile() {
-    return this.authService.login();
+    res.redirect(`${environment.FRONTEND_URL}/main/${req.user.id}`);
   }
 }

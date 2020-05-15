@@ -15,8 +15,6 @@ export class SteamStrategy extends PassportStrategy(Strategy, 'steam') {
   }
 
   async validate(identifier, profile, done: Function) {
-    console.log(identifier);
-    console.log(profile);
     return done(null, profile);
   }
 }

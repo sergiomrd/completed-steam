@@ -1,3 +1,5 @@
+import { UnauthorizedGuard } from './shared/guards/unauthorized.guard';
+import { AuthorizatedGuard } from './shared/guards/authentication.guard';
 import { ValidUrlPipe } from './shared/pipes/valid-url.pipe';
 import { BackgroundImagePipe } from './shared/pipes/background-image.pipe';
 import { BrowserModule } from '@angular/platform-browser';
@@ -12,8 +14,8 @@ import { HeaderComponent } from './shared/components/header/header.component';
 import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent, pathMatch: 'full' },
-  { path: 'main', component: MainComponent, pathMatch: 'full' },
+  { path: 'login', component: LoginComponent, pathMatch: 'full', canActivate: [UnauthorizedGuard] },
+  { path: 'main/:id', component: MainComponent, pathMatch: 'full', canActivate: [AuthorizatedGuard] },
   { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ];
 
@@ -33,7 +35,7 @@ const routes: Routes = [
     NgbModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [BackgroundImagePipe, ValidUrlPipe],
+  providers: [BackgroundImagePipe, ValidUrlPipe, AuthorizatedGuard, UnauthorizedGuard],
   exports: [RouterModule, BackgroundImagePipe, ValidUrlPipe],
   bootstrap: [AppComponent]
 })
