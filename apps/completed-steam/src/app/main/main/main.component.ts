@@ -7,6 +7,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Message } from '@completed-steam/api-interfaces';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'completed-steam-main',
@@ -15,21 +16,47 @@ import { environment } from '../../../environments/environment';
 })
 export class MainComponent implements OnInit {
   loginWindow: any;
-  games: Game[];
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private database: DatabaseService) {
+  allGames: Game[];
+  canScroll: boolean;
+  canLoadGames: boolean;
+  currentLoadedPage: number;
+  steamid: string;
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private database: DatabaseService, private spinner: NgxSpinnerService) {
 
   }
 
   async ngOnInit() {
-    const id = localStorage.getItem('id');
-    this.database.createUser({name: "test", steamid: id, completedGames: ['111']});
-    this.database.findUser(id);
-    this.getOwnedGames(id);
+    this.steamid = localStorage.getItem('id');
+    this.canScroll = true;
+    this.canLoadGames = true;
+    this.currentLoadedPage = 0;
+    // this.database.createUser({name: "test", steamid: id, completedGames: ['111']});
+    // this.database.findUser(id);
+    this.getOwnedGames(this.steamid, this.currentLoadedPage);
   }
 
-  getOwnedGames(id: string) {
-    this.http.get(`${environment.API}api/games/owned/${id}`, {params: {showAppInfo: 'true', showFreeGames: 'false', limit: '100'}}).subscribe((response: OwnedGamesResponse) => {
-      this.games = response.games;
+  getOwnedGames(id: string, pageToLoad: number) {
+    this.http.get(`${environment.API}api/games/owned/${id}`, {params: {showAppInfo: 'true', showFreeGames: 'false', limit: '50', page: pageToLoad.toString()}}).subscribe((response: OwnedGamesResponse) => {
+      if(pageToLoad === 0) {
+        this.allGames = response.games;
+      } else {
+        if(response.games.length > 0) {
+          this.allGames = this.allGames.concat(response.games);
+          this.canScroll = true;
+        } else {
+          this.canLoadGames = false;
+        }
+      }
     })
+  }
+
+  onScroll() {
+    if(this.canScroll && this.canLoadGames) {
+      this.spinner.show();
+      this.canScroll = false;
+      this.currentLoadedPage += 1;
+      this.getOwnedGames(this.steamid, this.currentLoadedPage)
+    }
+ 
   }
 }

@@ -9,4 +9,10 @@ export interface Game {
   playtime_mac_forever: number,
   playtime_linux_forever: number,
   completed: boolean;
+  background: GameBackground;
+}
+
+export interface GameBackground {
+  type: number,
+  url: string
 }

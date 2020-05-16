@@ -35,6 +35,28 @@
       }
     }
 
+    &-title {
+      text-align: center;
+      .text {
+        font-family: "Paytone One";
+        font-weight: bold;
+        color: #747677;
+        margin: 0;
+      }
+      
+    }
+
+    &-social {
+      a {
+        color: #747677;
+        &:hover {
+          color: #b9b9b9;
+        }
+      }
+
+      
+    }
+
   }
 }
 .line {

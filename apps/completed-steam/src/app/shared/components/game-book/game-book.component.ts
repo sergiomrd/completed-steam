@@ -19,20 +19,7 @@ export class GameBookComponent implements OnInit {
   }
 
    ngOnInit() {
-    this.imageTypes = ['library_600x900.jpg', 'library_hero.jpg', 'header.jpg', 'logo.png'];
-    this.imageUrl = `https://steamcdn-a.akamaihd.net/steam/apps/${this.game.appid}/${this.imageTypes[0]}`;
-    this.getImage(this.imageUrl);
-  }
 
-   getImage(imageUrl: string): any {
-    this.http.get(imageUrl, {responseType: 'blob'}).subscribe(data => {
-      this.background = this.bgPipe.transform(imageUrl);
-    }, ((error: HttpErrorResponse) => {
-      if(this.imageTypes.length > 0) {
-        this.imageTypes.shift();
-        this.getImage(`https://steamcdn-a.akamaihd.net/steam/apps/${this.game.appid}/${this.imageTypes[0]}`);
-      }
-    }));
   }
 
   setCompleted() {

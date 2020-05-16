@@ -12,6 +12,9 @@ import { MainComponent } from './main/main/main.component';
 import { GameBookComponent } from './shared/components/game-book/game-book.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { LoginComponent } from './login/login.component';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, pathMatch: 'full', canActivate: [UnauthorizedGuard] },
@@ -33,7 +36,10 @@ const routes: Routes = [
     BrowserModule,
     HttpClientModule,
     NgbModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    NgxSpinnerModule,
+    InfiniteScrollModule,
+    BrowserAnimationsModule
   ],
   providers: [BackgroundImagePipe, ValidUrlPipe, AuthorizatedGuard, UnauthorizedGuard],
   exports: [RouterModule, BackgroundImagePipe, ValidUrlPipe],
