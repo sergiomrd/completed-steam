@@ -4,6 +4,7 @@ import { UserService } from './../../services/user/user.service';
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
+import { EncryptService } from '../../services/encrypt/encrypt.service';
 
 @Component({
   selector: 'completed-steam-header',
@@ -12,10 +13,10 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   userInfo: PlayerSummaries;
-  constructor(private userService: UserService, private readonly http: HttpClient, private router: Router) { }
+  constructor(private userService: UserService, private readonly http: HttpClient, private router: Router, private encryptService: EncryptService) { }
 
   ngOnInit(): void {
-    const id = localStorage.getItem('id');
+    const id = this.encryptService.decrypt(localStorage.getItem('id'));
     this.getUserInfo(id);
   }
 

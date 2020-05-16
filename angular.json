@@ -26,7 +26,10 @@
               "apps/completed-steam/src/assets"
             ],
             "styles": ["apps/completed-steam/src/styles.scss"],
-            "scripts": []
+            "scripts": [
+              "node_modules/crypto-js/crypto-js.js",
+              "node_modules/crypto-js/core.js"
+            ]
           },
           "configurations": {
             "production": {

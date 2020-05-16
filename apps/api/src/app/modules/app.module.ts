@@ -1,3 +1,4 @@
+import { EncryptService } from './../services/encrypt.service';
 import { DatabaseModule } from './database.module';
 import { SteamStrategy } from '../auth/strategies/steam.strategy';
 import { GameController } from '../controllers/game.controller';
@@ -11,6 +12,6 @@ import { AuthController } from '../controllers/auth.controller';
 @Module({
   imports: [HttpModule, DatabaseModule],
   controllers: [UserController, GameController, AuthController],
-  providers: [UserService, GameService, AuthService, SteamStrategy]
+  providers: [UserService, GameService, AuthService, SteamStrategy, EncryptService]
 })
 export class AppModule {}

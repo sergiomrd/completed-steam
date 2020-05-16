@@ -1,3 +1,4 @@
+import { EncryptService } from './../../shared/services/encrypt/encrypt.service';
 import { DatabaseService } from './../../shared/services/database/database.service';
 import { UserService } from './../../shared/services/user/user.service';
 import { VanityUserResponse, OwnedGamesResponse } from './../../../../../api/src/app/models/user.interface';
@@ -21,12 +22,12 @@ export class MainComponent implements OnInit {
   canLoadGames: boolean;
   currentLoadedPage: number;
   steamid: string;
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private database: DatabaseService, private spinner: NgxSpinnerService) {
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private database: DatabaseService, private spinner: NgxSpinnerService, private encryptService: EncryptService) {
 
   }
 
   async ngOnInit() {
-    this.steamid = localStorage.getItem('id');
+    this.steamid = this.encryptService.decrypt(localStorage.getItem('id'));
     this.canScroll = true;
     this.canLoadGames = true;
     this.currentLoadedPage = 0;
