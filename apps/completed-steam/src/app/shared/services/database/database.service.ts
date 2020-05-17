@@ -1,6 +1,5 @@
 import { User } from './../../models/user.interface';
 import { UserDto } from './../../../../../../api/src/app/models/dto/user.dto';
-import { User } from './../../../../../../api/src/app/models/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
