@@ -11,13 +11,17 @@ export class DatabaseService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>, private encryptService: EncryptService) {}
 
   async create(userDto: UserDto): Promise<User> {
-    // const exist = this.find
     userDto.steamid = this.encryptService.decrypt(userDto.steamid);
     const createdUser = new this.userModel(userDto);
     return createdUser.save();
   }
 
-  async find(id: string): Promise<User> {
+  async update(userDto: UserDto): Promise<User> {
+    const decryptedId = this.encryptService.decrypt(userDto.steamid);
+    return this.userModel.updateOne({steamid: decryptedId}, {completedGames: userDto.completedGames});
+  }
+
+  async find(id: string) {
     return this.userModel.findOne({steamid: this.encryptService.decrypt(id)});
   };
 

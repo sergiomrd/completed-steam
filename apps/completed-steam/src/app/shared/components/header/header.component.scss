@@ -25,10 +25,9 @@
 
     &-logout {
       color: #747677;
-      cursor: pointer;
       .text {
         margin:0;
-
+        cursor: pointer;
         &:hover {
           color: #b9b9b9;
         }

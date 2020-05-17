@@ -24,8 +24,10 @@ export class MainComponent implements OnInit {
   currentLoadedPage: number;
   steamid: string;
   user: User;
+  completedGames: string[];
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private database: DatabaseService, private spinner: NgxSpinnerService, private encryptService: EncryptService) {
-
+    this.allGames = [];
+    this.completedGames = [];
   }
 
   async ngOnInit() {
@@ -34,21 +36,24 @@ export class MainComponent implements OnInit {
     this.canLoadGames = true;
     this.currentLoadedPage = 0;
     this.user = await this.database.findUser(this.encryptService.encrypt(this.steamid));
-    //this.database.createUser({steamid: this.encryptService.encrypt(this.steamid), completedGames: ['111']});
-
+    if(this.user && this.user.completedGames) {
+      this.completedGames = this.user.completedGames;
+    }
     this.getOwnedGames(this.steamid, this.currentLoadedPage);
   }
 
   getOwnedGames(id: string, pageToLoad: number) {
-    this.http.get(`${environment.API}api/games/owned/${id}`, {params: {showAppInfo: 'true', showFreeGames: 'false', limit: '50', page: pageToLoad.toString()}}).subscribe((response: OwnedGamesResponse) => {
+    this.http.get(`${environment.API}api/games/owned/${this.encryptService.encrypt(id)}`, {params: {showAppInfo: 'true', showFreeGames: 'false', limit: '50', page: pageToLoad.toString()}}).subscribe((response: OwnedGamesResponse) => {
       if(pageToLoad === 0) {
-        this.allGames = response.games;
+        this.allGames = this.setCompletedGames(response.games);
       } else {
         if(response.games.length > 0) {
-          this.allGames = this.allGames.concat(response.games);
+          this.allGames = this.allGames.concat(this.setCompletedGames(response.games));
           this.canScroll = true;
         } else {
+          this.canScroll = false;
           this.canLoadGames = false;
+          this.spinner.hide();
         }
       }
     })
@@ -64,6 +69,31 @@ export class MainComponent implements OnInit {
   }
 
   setCompletedGames(games: Game[]): Game[] {
-    return [];
+    const aux: Game[] = games;
+    if(this.completedGames && this.completedGames.length > 0) {
+      aux.map((game: Game) => {
+        game.completed = this.completedGames.indexOf(game.appid.toString()) > -1;
+      })
+    }
+    return aux;
+  }
+
+  updateBooks(event: any) {
+    if(event) {
+      if(event.completed) {
+        this.completedGames.push(event.appid);
+      } else {
+        const id = this.completedGames.indexOf(event.appid);
+        if(id){
+          this.completedGames.splice(id, 1);
+        }
+      }
+  
+      if(this.user) {
+        this.database.updateUser({steamid: this.encryptService.encrypt(this.steamid), completedGames: this.completedGames});
+      } else {
+        this.database.createUser({steamid: this.encryptService.encrypt(this.steamid), completedGames: this.completedGames});
+      }
+    }
   }
 }

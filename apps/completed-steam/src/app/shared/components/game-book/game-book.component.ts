@@ -2,7 +2,7 @@ import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/htt
 import { ValidUrlPipe } from './../../pipes/valid-url.pipe';
 import { Game } from './../../../../../../api/src/app/models/game.interface';
 import { BackgroundImagePipe } from './../../pipes/background-image.pipe';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'completed-steam-game-book',
@@ -14,9 +14,9 @@ export class GameBookComponent implements OnInit {
   imageUrl: string;
   imageTypes: string[];
   @Input() game: Game;
+  @Output() update = new EventEmitter()
 
-  constructor(private bgPipe: BackgroundImagePipe, private validUrl: ValidUrlPipe, private http: HttpClient) { 
-  }
+  constructor(private bgPipe: BackgroundImagePipe, private validUrl: ValidUrlPipe, private http: HttpClient) {}
 
    ngOnInit() {
 
@@ -24,6 +24,7 @@ export class GameBookComponent implements OnInit {
 
   setCompleted() {
     this.game.completed = !this.game.completed;
+    this.update.emit({appid: this.game.appid.toString(), completed: this.game.completed});
   }
 
 }

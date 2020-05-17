@@ -21,9 +21,12 @@ export class DatabaseService {
   }
 
   async createUser(user: UserDto) {
-    await this.http.post(`${environment.API}api/user/create`, {body: user});
+    return await this.http.post(`${environment.API}api/user/create`, {body: user}).subscribe();
   }
 
+  async updateUser(user: UserDto) {
+    return await this.http.put(`${environment.API}api/user/update`, {body: user}).subscribe();
+  }
   
   async findUser(id: string): Promise<User> {
     let user;

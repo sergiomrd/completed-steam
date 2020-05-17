@@ -4,8 +4,7 @@
     (scrolled)="onScroll()">
 
     <div class="row games-view">
-      <completed-steam-game-book class="col-auto" *ngFor='let game of allGames' [game]="game">
-      </completed-steam-game-book>
+      <completed-steam-game-book class="col-auto" *ngFor='let game of allGames' [game]="game" (update)="updateBooks($event)"></completed-steam-game-book>
     </div>
     <div class="row spinner">
       <div class="col-12">
