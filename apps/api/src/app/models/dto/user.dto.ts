@@ -1,5 +1,4 @@
 export class UserDto {
-    readonly name: string;
-    readonly steamid: string;
+    steamid: string;
     readonly completedGames: string[];
 }

@@ -19,9 +19,6 @@ export class AuthController {
   async steamLoginCallback(@Request() req, @Res() res)
   {
     let id = this.encryptService.encrypt(req.user.id);
-    console.log(id);
-    id = id.toString().replace(/\+/g, "xd").replace(/\//g, "dx");
-    console.log(id);
     res.redirect(`${environment.FRONTEND_URL}main/${id}`);
   }
 }

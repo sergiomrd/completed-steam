@@ -54,16 +54,16 @@
       }
 
       a {
-        color: #747677;
+        color: #6c7174;
         &:hover {
           color: #b9b9b9;
         }
       }
 
       input[type=submit] {
-        border: 1px solid #85898e;
+        border: 1px solid #6c7174;
         background: #2d333c;
-        color: #85898e;
+        color: #6c7174;
         border-radius: 20px;
         font-size: 12px;
         vertical-align: top;
@@ -81,7 +81,7 @@
 }
 .line {
   height: 1px;
-  background: linear-gradient(to left, #2d333c, #85898e);
+  background: linear-gradient(to left, #424547b0, #85898e4f);
   width: 100%;
   margin-right: 15px;
 }

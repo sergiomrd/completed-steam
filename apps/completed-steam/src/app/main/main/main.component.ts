@@ -9,6 +9,7 @@ import { Message } from '@completed-steam/api-interfaces';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { User } from '../../shared/models/user.interface';
 
 @Component({
   selector: 'completed-steam-main',
@@ -22,6 +23,7 @@ export class MainComponent implements OnInit {
   canLoadGames: boolean;
   currentLoadedPage: number;
   steamid: string;
+  user: User;
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private database: DatabaseService, private spinner: NgxSpinnerService, private encryptService: EncryptService) {
 
   }
@@ -31,8 +33,9 @@ export class MainComponent implements OnInit {
     this.canScroll = true;
     this.canLoadGames = true;
     this.currentLoadedPage = 0;
-    // this.database.createUser({name: "test", steamid: id, completedGames: ['111']});
-    // this.database.findUser(id);
+    this.user = await this.database.findUser(this.encryptService.encrypt(this.steamid));
+    //this.database.createUser({steamid: this.encryptService.encrypt(this.steamid), completedGames: ['111']});
+
     this.getOwnedGames(this.steamid, this.currentLoadedPage);
   }
 
@@ -58,6 +61,9 @@ export class MainComponent implements OnInit {
       this.currentLoadedPage += 1;
       this.getOwnedGames(this.steamid, this.currentLoadedPage)
     }
- 
+  }
+
+  setCompletedGames(games: Game[]): Game[] {
+    return [];
   }
 }

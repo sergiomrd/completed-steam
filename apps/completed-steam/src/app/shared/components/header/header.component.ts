@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getUserInfo(id: string) {
-    this.http.get(`${environment.API}api/user`, {params: {id: id}}).subscribe(response => {
+    this.http.get(`${environment.API}api/user`, {params: {id: this.encryptService.encrypt(id)}}).subscribe(response => {
       const player: PlayerSummaries = response['players'][0];
       this.userInfo = player;
     })

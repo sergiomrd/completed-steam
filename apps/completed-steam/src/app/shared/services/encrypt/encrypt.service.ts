@@ -10,13 +10,14 @@ export class EncryptService {
 
   encrypt(value: string): string {
     if (value) {
-      return CryptoJS.AES.encrypt(value, environment.ENCRYPT).toString();
+      const encryptedValue = CryptoJS.AES.encrypt(value, environment.ENCRYPT).toString();
+      return encryptedValue.replace(/\+/g, "xd3").replace(/\//g, "dx2")
     }
   }
 
   decrypt(textToDecrypt: string) {
     if (textToDecrypt) {
-      return CryptoJS.AES.decrypt(textToDecrypt.replace(/xd/g, "+").replace(/dx/g, "/"), environment.ENCRYPT).toString(
+      return CryptoJS.AES.decrypt(textToDecrypt.replace(/xd3/g, "+").replace(/dx2/g, "/"), environment.ENCRYPT).toString(
         CryptoJS.enc.Utf8
       );
     }

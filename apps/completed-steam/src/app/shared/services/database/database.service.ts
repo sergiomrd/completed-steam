@@ -1,3 +1,4 @@
+import { User } from './../../models/user.interface';
 import { UserDto } from './../../../../../../api/src/app/models/dto/user.dto';
 import { User } from './../../../../../../api/src/app/models/user.interface';
 import { HttpClient } from '@angular/common/http';
@@ -21,13 +22,15 @@ export class DatabaseService {
   }
 
   async createUser(user: UserDto) {
-      return await this.http.post(`${environment.API}api/user/create`, {body: user}).subscribe(response => {
-      });
+    await this.http.post(`${environment.API}api/user/create`, {body: user});
   }
 
   
-  async findUser(id: string) {
-    return await this.http.get(`${environment.API}api/user/${id}` ).subscribe(response => {
+  async findUser(id: string): Promise<User> {
+    let user;
+    await this.http.get(`${environment.API}api/user/${id}` ).toPromise().then((response) => {
+      user = response;
     });
-}
+    return user;
+  }
 }

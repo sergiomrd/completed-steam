@@ -1,3 +1,4 @@
+import { EncryptService } from './encrypt.service';
 import { PlayerSummaries} from './../models/user.interface';
 import { VanityUserResponse } from '../models/user.interface';
 import { environment } from './../../environments/environment';
@@ -9,7 +10,7 @@ import { AxiosResponse, AxiosRequestConfig } from 'axios';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService, private encryptService: EncryptService) {}
 
   getUserSteamId(name: string): Observable<AxiosResponse<VanityUserResponse>> {
     return this.httpService.get<VanityUserResponse>(
@@ -24,7 +25,7 @@ export class UserService {
     return this.httpService.get<PlayerSummaries>(
       'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/', {params: {
         key: environment.WEB_API,
-        steamids: id
+        steamids: this.encryptService.decrypt(id)
       }}
     );
   }
