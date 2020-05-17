@@ -8,7 +8,7 @@ import { UserService } from '../services/user.service';
 import { Module, HttpModule } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { AuthController } from '../controllers/auth.controller';
-
+//test
 @Module({
   imports: [HttpModule, DatabaseModule],
   controllers: [UserController, GameController, AuthController],
