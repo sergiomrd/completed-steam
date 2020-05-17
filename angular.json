@@ -23,7 +23,8 @@
             "aot": true,
             "assets": [
               "apps/completed-steam/src/favicon.ico",
-              "apps/completed-steam/src/assets"
+              "apps/completed-steam/src/assets",
+              "apps/completed-steam/src/_redirects"
             ],
             "styles": ["apps/completed-steam/src/styles.scss"],
             "scripts": [
