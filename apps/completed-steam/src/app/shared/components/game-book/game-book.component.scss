@@ -21,7 +21,7 @@
 
     .completed {
       transition: all 0.2s ease-in;
-      filter: brightness(0.8) grayscale(0.8);
+      filter: blur(2px) brightness(0.8) grayscale(0.8);
     }
 
     .background {

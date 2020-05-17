@@ -47,6 +47,12 @@
     }
 
     &-social {
+      color: #747677;
+
+      p {
+        margin: 0;
+      }
+
       a {
         color: #747677;
         &:hover {
@@ -54,6 +60,20 @@
         }
       }
 
+      input[type=submit] {
+        border: 1px solid #85898e;
+        background: #2d333c;
+        color: #85898e;
+        border-radius: 20px;
+        font-size: 12px;
+        vertical-align: top;
+
+        &:hover {
+          border: 1px solid #85898e;
+          background: #85898e;
+          color: #2d333c;
+        }
+      }
       
     }
 

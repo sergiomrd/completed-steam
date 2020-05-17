@@ -1,0 +1,28 @@
+.scroll-to-top {
+    position: fixed;
+    bottom: -3px;    
+    transform: translateX(-50%);
+    left: 50%;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+    z-index: 99999;
+
+    button {
+        color: rgba(102, 204, 255, 1);
+        width: 300px;
+        border-radius: 6px;
+        border: none;
+        background: linear-gradient(to bottom, #1b71ca, #01121b);
+        box-shadow: 0px 0px 8px 1px rgba(5, 5, 5, 1);
+        -webkit-box-shadow: 0px 0px 8px 1px  rgba(5, 5, 5, 1);
+        -moz-box-shadow: 0px 0px 8px 1px  rgba(5, 5, 5, 1);
+        box-shadow: 0px 0px 8px 1px  rgba(5, 5, 5, 1);
+        outline:none;
+    }
+
+   }
+   .show-scrollTop {
+    opacity: 0.9;
+    border: 0;
+    transition: all .2s ease-in-out;
+   }

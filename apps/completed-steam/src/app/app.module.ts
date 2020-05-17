@@ -15,6 +15,7 @@ import { LoginComponent } from './login/login.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { ScrollTopComponent } from './shared/components/scroll-to-top/scroll-to-top.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, pathMatch: 'full', canActivate: [UnauthorizedGuard] },
@@ -30,7 +31,8 @@ const routes: Routes = [
     BackgroundImagePipe,
     ValidUrlPipe,
     HeaderComponent,
-    LoginComponent
+    LoginComponent,
+    ScrollTopComponent
   ],
   imports: [
     BrowserModule,
