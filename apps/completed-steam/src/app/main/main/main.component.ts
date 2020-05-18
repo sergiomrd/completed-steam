@@ -35,10 +35,7 @@ export class MainComponent implements OnInit {
     this.canScroll = true;
     this.canLoadGames = true;
     this.currentLoadedPage = 0;
-    this.user = await this.database.findUser(this.encryptService.encrypt(this.steamid));
-    if(this.user && this.user.completedGames) {
-      this.completedGames = this.user.completedGames;
-    }
+    this.loadUserData();
     this.getOwnedGames(this.steamid, this.currentLoadedPage);
   }
 
@@ -78,7 +75,7 @@ export class MainComponent implements OnInit {
     return aux;
   }
 
-  updateBooks(event: any) {
+  async updateBooks(event: any) {
     if(event) {
       if(event.completed) {
         this.completedGames.push(event.appid);
@@ -88,12 +85,19 @@ export class MainComponent implements OnInit {
           this.completedGames.splice(id, 1);
         }
       }
-  
+
       if(this.user) {
         this.database.updateUser({steamid: this.encryptService.encrypt(this.steamid), completedGames: this.completedGames});
-      } else {
-        this.database.createUser({steamid: this.encryptService.encrypt(this.steamid), completedGames: this.completedGames});
       }
     }
+  }
+
+  async loadUserData() {
+    await this.database.findUser(this.encryptService.encrypt(this.steamid)).then((response) => {
+      this.user = response;
+      if(this.user && this.user.completedGames) {
+        this.completedGames = this.user.completedGames;
+      }
+    });
   }
 }
