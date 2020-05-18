@@ -12,6 +12,10 @@
         border: 1px solid rgba(102, 204, 255, 1);
         border: 1px solid #85898e;
         cursor: pointer;
+
+        &:hover {
+          filter: brightness(1.1);
+        }
       }
     }
 
@@ -28,6 +32,7 @@
       .text {
         margin:0;
         cursor: pointer;
+        width: 12%;
         &:hover {
           color: #b9b9b9;
         }
