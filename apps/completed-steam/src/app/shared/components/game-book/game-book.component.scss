@@ -15,8 +15,19 @@
     &:hover {
       transform: translateY(-0.25em);
       transition: all 0.1s ease-in;
-      // transition: all 0.2s ease-in;
-      //filter: brightness(0.8) grayscale(0.8);
+    }
+
+    .no-image {
+      background-image: url(apps\completed-steam\src\assets\library_600x900_noimage.png);
+
+      &-text {
+        text-align: center;
+        transform: translateY(100%);
+        width: 90%;
+        margin: 0 auto;
+        color: #c2e4f5;
+        font-size: 20px;
+      }
     }
 
     .completed {

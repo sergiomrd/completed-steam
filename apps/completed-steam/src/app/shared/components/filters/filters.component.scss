@@ -12,10 +12,14 @@
       display: inline-flex;
 
       .icon {
-        margin-right: 1%;
+        margin-right: 5%;
         margin-bottom: 2px;
         align-self: center;
       }
+    }
+
+    .no-event {
+        pointer-events: none;
     }
 
     .custom-control {
@@ -36,6 +40,13 @@
               background-color: #85898e
             }
           }
+        }
+
+        &:disabled{
+            &~.custom-control-label {
+                color: #85898e;
+            }
+            
         }
       }
 

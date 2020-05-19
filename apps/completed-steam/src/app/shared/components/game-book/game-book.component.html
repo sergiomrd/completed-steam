@@ -1,25 +1,13 @@
-<!-- <div class="row">
-  <div class="col-12 game-book" (click)="setCompleted()">
-    <div class="row game-book-row" [ngClass]="{'completed' : this.game.completed, 'no-background': game?.background.type !== 0}"
-      [style.background-image]="game?.background.url | bgImage">
-      <div class="overlay" [style.background-image]="game?.background.url | bgImage" [ngClass]="{'mode-header': game?.background.type !== 0}"></div>
-      <div class="col name-container">
-        <p class="name">{{this.game.name}}</p>
-      </div>
-    </div>
-    
-  </div>
-</div> -->
-
 <div id="game-book" class="row">
   <div class="col-12 game-book" (click)="setCompleted()">
-    <div class="background" [style.background-image]="game?.background.url | bgImage"
-      [ngClass]="{'completed' : this.game.completed, 'mode-blur': game?.background.type !== 0}"></div>
-    <div *ngIf="game?.background.type !== 0" class="header" [style.background-image]="game?.background.url | bgImage"
+    <div class="background" [style.background-image]="game?.background?.url | bgImage"
+      [ngClass]="{'completed' : this.game.completed, 'mode-blur': game?.background?.type > 0, 'no-image': game?.background?.type === -1}">
+    <p class="no-image-text" *ngIf="game?.background?.type === -1">{{this.game.name}}</p></div>
+    <div *ngIf="game?.background?.type > 0" class="header" [style.background-image]="game?.background?.url | bgImage"
       [ngClass]="{'completed' : this.game.completed}"></div>
     <i *ngIf="game.completed" class="fas fa-check-circle"></i>
   </div>
-  <div class="col-12 name-container">
+  <div *ngIf="game?.background?.type >= 0 || game?.background?.type === -1 && this.game.completed" class="col-12 name-container">
     <p class="name">{{this.game.name}}</p>
   </div>
 </div>

@@ -1,3 +1,4 @@
+import { Filters } from './../../shared/models/filters.interface';
 import { EncryptService } from './../../shared/services/encrypt/encrypt.service';
 import { DatabaseService } from './../../shared/services/database/database.service';
 import { UserService } from './../../shared/services/user/user.service';
@@ -27,6 +28,7 @@ export class MainComponent implements OnInit {
   completedGames: string[];
   totalGames: number;
   remainingGames: number;
+  activeFilter: Filters;
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private database: DatabaseService, private spinner: NgxSpinnerService, private encryptService: EncryptService) {
     this.allGames = [];
     this.completedGames = [];
@@ -37,12 +39,13 @@ export class MainComponent implements OnInit {
     this.canScroll = true;
     this.canLoadGames = true;
     this.currentLoadedPage = 0;
+    this.activeFilter = Filters.All;
     this.loadUserData();
     this.getOwnedGames(this.steamid, this.currentLoadedPage);
   }
 
   getOwnedGames(id: string, pageToLoad: number) {
-    this.http.get(`${environment.API}api/games/owned/${this.encryptService.encrypt(id)}`, {params: {showAppInfo: 'true', showFreeGames: 'false', limit: '50', page: pageToLoad.toString()}}).subscribe((response: OwnedGamesResponse) => {
+    this.http.get(`${environment.API}api/games/owned/${this.encryptService.encrypt(id)}`, {params: {showAppInfo: 'true', showFreeGames: 'false', limit: '50', page: pageToLoad.toString(), filter: this.activeFilter }}).subscribe((response: OwnedGamesResponse) => {
       this.totalGames = response.game_count;
       this.getRemainingGames();
       if(pageToLoad === 0) {
@@ -108,5 +111,13 @@ export class MainComponent implements OnInit {
 
   getRemainingGames() {
     this.remainingGames = this.totalGames - this.completedGames.length;
+  }
+
+  setFilters(value: Filters) {
+    this.currentLoadedPage = 0;
+    this.activeFilter = value;
+    this.canScroll = true;
+    this.canLoadGames = true;
+    this.getOwnedGames(this.steamid, this.currentLoadedPage);
   }
 }

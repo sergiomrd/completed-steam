@@ -1,16 +1,20 @@
+import { UserService } from './../services/user.service';
+import { Filters } from './../models/filters.interface';
 import { GameService } from './../services/game.service';
-import { Controller, Get, Param, Query, HttpService } from '@nestjs/common';
+import { Controller, Get, Param, Query, HttpService, Logger } from '@nestjs/common';
 import { map } from 'rxjs/operators';
 import { Game, GameBackground } from '../models/game.interface';
+import { DatabaseService } from '../services/database.service';
 
 @Controller('games')
 export class GameController {
   imageTypes: string[];
   games: Game[];
-
+  private readonly logger = new Logger(GameController.name);
   constructor(
     private readonly gameService: GameService,
-    private readonly http: HttpService
+    private readonly http: HttpService,
+    private readonly databaseService: DatabaseService
   ) {}
 
   @Get('owned/:id')
@@ -19,7 +23,8 @@ export class GameController {
     @Query('showAppInfo') showAppInfo: boolean,
     @Query('showFreeGames') showFreeGames: boolean,
     @Query('limit') limit: number,
-    @Query('page') page: number
+    @Query('page') page: number,
+    @Query('filter') filter: string,
   ) {
     this.imageTypes = [
       'library_600x900.jpg',
@@ -36,9 +41,14 @@ export class GameController {
             response.data['response'] &&
             response.data['response'].games
           ) {
-            this.games = response.data['response'].games;
+            await this.getFilteredGames(
+              id,
+              filter,
+              response.data['response'].games
+            ).then(games => this.games = games);
+
             if (limit) {
-              this.games = response.data['response'].games.slice(
+              this.games = this.games.slice(
                 page * limit,
                 (+page + 1) * limit
               );
@@ -51,13 +61,35 @@ export class GameController {
             );
 
             return {
-              games: this.games.filter((game: Game) => game.background),
+              games: this.games,
               game_count: response.data['response'].games.length
             };
           }
         })
       );
   }
+
+  async getFilteredGames(id: string, filter: string, games: Game[]): Promise<Game[]> {
+    let completedGames = [];
+    if(filter !== Filters.All) {
+      const user = await this.databaseService.find(id);
+      if(user) {
+        completedGames = user.completedGames;
+      }
+    }
+
+    switch (filter) {
+      case Filters.All:
+        return games;
+
+      case Filters.Completed:
+        return games.filter((game) => completedGames.indexOf(game.appid.toString()) > -1)
+
+      case Filters.NotCompleted:
+        return games.filter((game) => completedGames.indexOf(game.appid.toString()) === -1)
+    }
+  }
+
 
   async getImage(appid: number, imagePos: number): Promise<GameBackground> {
     const imageUrl = `https://steamcdn-a.akamaihd.net/steam/apps/${appid}/${this.imageTypes[imagePos]}`;
@@ -70,7 +102,7 @@ export class GameController {
           if (imagePos <= this.imageTypes.length - 1) {
             resolve(this.getImage(appid, imagePos + 1));
           } else {
-            resolve(undefined);
+            resolve({ type: -1, url: undefined });
           }
         }
       );
