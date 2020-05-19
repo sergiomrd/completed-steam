@@ -1,11 +1,24 @@
+.user-info {
+  margin-top: 0.4%;
+
+  .remaining {
+    color: #85898e;
+    text-align: center;
+    margin-left: 0.8%;
+  }
+}
+
+
+
 .games-view {
-    padding-top: 20px;
-    margin-bottom: 2%;
-    completed-steam-game-book {
-        margin: 15px;
-    }
+  padding-top: 20px;
+  margin-bottom: 2%;
+
+  completed-steam-game-book {
+    margin: 15px;
+  }
 }
 
 .spinner {
-    margin-bottom: 4%;
+  margin-bottom: 4%;
 }

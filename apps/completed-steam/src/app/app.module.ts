@@ -16,6 +16,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ScrollTopComponent } from './shared/components/scroll-to-top/scroll-to-top.component';
+import { FiltersComponent } from './shared/components/filters/filters.component';
 
 const routes: Routes = [
   {
@@ -42,7 +43,8 @@ const routes: Routes = [
     ValidUrlPipe,
     HeaderComponent,
     LoginComponent,
-    ScrollTopComponent
+    ScrollTopComponent,
+    FiltersComponent
   ],
   imports: [
     BrowserModule,

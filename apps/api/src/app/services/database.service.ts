@@ -22,8 +22,9 @@ export class DatabaseService {
   }
 
   async find(id: string) {
+    id = this.encryptService.decrypt(id);
     this.logger.log(`Trying to find user with id: ${id}`)
-    return this.userModel.findOne({steamid: this.encryptService.decrypt(id)});
+    return this.userModel.findOne({steamid: id});
   };
 
 }

@@ -51,7 +51,8 @@ export class GameController {
             );
 
             return {
-              games: this.games.filter((game: Game) => game.background )
+              games: this.games.filter((game: Game) => game.background),
+              game_count: response.data['response'].games.length
             };
           }
         })
@@ -63,7 +64,7 @@ export class GameController {
     return new Promise((resolve, reject) => {
       this.http.get(imageUrl, { responseType: 'blob' }).subscribe(
         data => {
-          resolve({type: imagePos, url: imageUrl});
+          resolve({ type: imagePos, url: imageUrl });
         },
         async error => {
           if (imagePos <= this.imageTypes.length - 1) {
@@ -74,18 +75,5 @@ export class GameController {
         }
       );
     });
-
-    // await this.http.get(imageUrl, { responseType: 'blob' }).subscribe(
-    //   data => {
-    //     return imageUrl;
-    //   },
-    //   async (error) => {
-    //     if (imagePos <= this.imageTypes.length-1) {
-    //       return await this.getImage(appid, imagePos + 1);
-    //     } else {
-    //       return undefined;
-    //     }
-    //   }
-    // );
   }
 }

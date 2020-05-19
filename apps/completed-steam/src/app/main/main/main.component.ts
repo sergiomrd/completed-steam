@@ -25,6 +25,8 @@ export class MainComponent implements OnInit {
   steamid: string;
   user: User;
   completedGames: string[];
+  totalGames: number;
+  remainingGames: number;
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private database: DatabaseService, private spinner: NgxSpinnerService, private encryptService: EncryptService) {
     this.allGames = [];
     this.completedGames = [];
@@ -41,6 +43,8 @@ export class MainComponent implements OnInit {
 
   getOwnedGames(id: string, pageToLoad: number) {
     this.http.get(`${environment.API}api/games/owned/${this.encryptService.encrypt(id)}`, {params: {showAppInfo: 'true', showFreeGames: 'false', limit: '50', page: pageToLoad.toString()}}).subscribe((response: OwnedGamesResponse) => {
+      this.totalGames = response.game_count;
+      this.getRemainingGames();
       if(pageToLoad === 0) {
         this.allGames = this.setCompletedGames(response.games);
       } else {
@@ -81,7 +85,7 @@ export class MainComponent implements OnInit {
         this.completedGames.push(event.appid);
       } else {
         const id = this.completedGames.indexOf(event.appid);
-        if(id){
+        if(id > -1){
           this.completedGames.splice(id, 1);
         }
       }
@@ -89,6 +93,7 @@ export class MainComponent implements OnInit {
       if(this.user) {
         this.database.updateUser({steamid: this.encryptService.encrypt(this.steamid), completedGames: this.completedGames});
       }
+      this.getRemainingGames()
     }
   }
 
@@ -99,5 +104,9 @@ export class MainComponent implements OnInit {
         this.completedGames = this.user.completedGames;
       }
     });
+  }
+
+  getRemainingGames() {
+    this.remainingGames = this.totalGames - this.completedGames.length;
   }
 }
