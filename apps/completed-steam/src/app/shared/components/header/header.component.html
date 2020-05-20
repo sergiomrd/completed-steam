@@ -1,21 +1,20 @@
-<section id="header" class="container-fluid">
+<div *ngIf="!isMobile" id="header" class="container-fluid">
   <div *ngIf="this.userInfo" class="row header">
-    <div class="col-auto header-avatar">
+    <div class="col-md-auto col-sm-auto header-avatar">
       <a [href]="this.userInfo.profileurl"><img [src]="this.userInfo.avatar"></a>
-
     </div>
-    <div class="col-auto header-name">
+    <div class="col-md-auto col-sm-auto header-name">
       <p class="name">{{this.userInfo.personaname}}</p>
     </div>
-    <div class="col-3 header-logout">
+    <div class="col-md-auto col-sm-auto header-logout">
       <p class="text" (click)="logout()">Logout</p>
     </div>
-    <div class="col header-title">
+    <div class="col-md col-sm-auto header-title">
       <p class="text">IS STEAM C<i class="far fa-check-circle icon"></i>MPLETED?</p>
     </div>
-    <div class="col header-social">
+    <div class="col-md-3 col-lg-2 col-sm header-social">
       <div class="row justify-content-end">
-        <div class="col-4 d-flex justify-content-around pr-0">
+        <div class="col-md-12 col-xl-10 col-sm-12 d-flex justify-content-around">
           <a href="https://www.linkedin.com/in/sergiomalonda/"><i class="fab fa-linkedin"></i></a>
           <a href="https://twitter.com/Sergiomrd"><i class="fab fa-twitter"></i></a>
           <a href="https://www.instagram.com/sergiomalonda/"><i class="fab fa-instagram"></i></a>
@@ -33,5 +32,48 @@
       </div>
     </div>
   </div>
-</section>
+</div>
+
+
+<div *ngIf="isMobile" id="header" class="container-fluid">
+  <div class="row title">
+    <div class="col-12 header-title">
+      <p class="text">IS STEAM C<i class="far fa-check-circle icon"></i>MPLETED?</p>
+    </div>
+  </div>
+  <div class="line"></div>
+  <div class="row social">
+    <div class="col header-social">
+      <div class="row justify-content-end">
+        <div class="col-12 d-flex justify-content-around">
+          <a href="https://www.linkedin.com/in/sergiomalonda/"><i class="fab fa-linkedin"></i></a>
+          <a href="https://twitter.com/Sergiomrd"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.instagram.com/sergiomalonda/"><i class="fab fa-instagram"></i></a>
+          <a href="mailto:sermalonda@gmail.com"><i class="fas fa-envelope"></i></a>
+
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_donations" />
+            <input type="hidden" name="business" value="4VEVCJ2ACL6D2" />
+            <input type="hidden" name="item_name" value="Buy me a coffee" />
+            <input type="hidden" name="currency_code" value="USD" />
+            <input type="submit" border="0" value="Donate" name="submit"
+              title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="line"></div>
+  <div *ngIf="this.userInfo" class="row header">
+    <div class="col-auto header-avatar">
+      <a [href]="this.userInfo.profileurl"><img [src]="this.userInfo.avatar"></a>
+    </div>
+    <div class="col-auto header-name">
+      <p class="name">{{this.userInfo.personaname}}</p>
+    </div>
+    <div class="col header-logout">
+      <p class="text" (click)="logout()">Logout</p>
+    </div>
+  </div>
+</div>
 <div class="line"></div>

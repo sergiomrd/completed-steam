@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
 import { EncryptService } from '../../services/encrypt/encrypt.service';
+import { DeviceDetectionUtil } from '../../utils/device-detection.util';
 
 @Component({
   selector: 'completed-steam-header',
@@ -13,7 +14,10 @@ import { EncryptService } from '../../services/encrypt/encrypt.service';
 })
 export class HeaderComponent implements OnInit {
   userInfo: PlayerSummaries;
-  constructor(private userService: UserService, private readonly http: HttpClient, private router: Router, private encryptService: EncryptService) { }
+  isMobile: boolean;
+  constructor(private userService: UserService, private readonly http: HttpClient, private router: Router, private encryptService: EncryptService) {
+    DeviceDetectionUtil.isMobile.subscribe((value: boolean) => (this.isMobile = value));
+   }
 
   ngOnInit(): void {
     const id = this.encryptService.decrypt(localStorage.getItem('id'));

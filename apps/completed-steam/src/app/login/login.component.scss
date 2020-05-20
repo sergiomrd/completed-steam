@@ -1,3 +1,5 @@
+@import '../../assets/styles/responsive.scss';
+
 #login {
   color: #85898e;
 
@@ -13,6 +15,18 @@
         font-family: "Paytone One";
         font-weight: bold;
         font-size: 5vh;
+
+        @include mobile-xs {
+          font-size: 4vh;
+        }
+
+        @include mobile-md {
+          font-size: 4vh;
+        }
+
+        @include mobile-lg {
+          font-size: 3.5vh
+        }
 
         .text {
             display: inline-block;

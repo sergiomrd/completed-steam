@@ -1,3 +1,5 @@
+@import '../../../../assets/styles/responsive.scss';
+
 #header {
   background: #212934;
 
@@ -6,6 +8,12 @@
     width: 100%;
     z-index: 999;
     align-items: center;
+
+    @include mobile {
+      height: unset;
+      align-items: center;
+      margin-top: 3%;
+    }
 
     &-avatar {
       img {
@@ -17,36 +25,53 @@
           filter: brightness(1.1);
         }
       }
+
+      @include mobile {
+        margin-bottom: 2%;
+      }
     }
 
     &-name {
       padding: 0;
+
       .name {
         color: rgba(102, 204, 255, 1);
         margin: 0;
+      }
+
+      @include mobile {
+        margin-bottom: 2%;
       }
     }
 
     &-logout {
       color: #747677;
+
       .text {
-        margin:0;
+        margin: 0;
         cursor: pointer;
         width: 12%;
+
         &:hover {
           color: #b9b9b9;
         }
+      }
+
+      @include mobile {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 2%;
       }
     }
 
     &-title {
       text-align: center;
+
       .text {
         font-family: "Paytone One";
         color: #747677;
         margin: 0;
       }
-      
     }
 
     &-social {
@@ -59,6 +84,7 @@
 
       a {
         color: #6c7174;
+
         &:hover {
           color: #b9b9b9;
         }
@@ -78,11 +104,28 @@
           color: #2d333c;
         }
       }
-      
+
     }
 
   }
+
+  .title {
+
+    @include mobile {
+      padding-top: 2%;
+      margin-bottom: 2%;
+    }
+
+  }
+
+  .social {
+    @include mobile {
+      margin-top: 2%;
+      margin-bottom: 2%;
+    }
+  }
 }
+
 .line {
   height: 1px;
   background: linear-gradient(to left, #424547b0, #85898e4f);
