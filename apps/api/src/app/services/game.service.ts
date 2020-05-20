@@ -9,7 +9,6 @@ import { AxiosResponse, AxiosRequestConfig } from 'axios';
 @Injectable()
 export class GameService {
   constructor(private readonly httpService: HttpService, private encrypService: EncryptService) {}
-
   getOwnedGames(steamId: string, showAppInfo: boolean, showFreeGames: boolean): Observable<AxiosResponse<OwnedGamesResponse>> {
     return this.httpService.get<OwnedGamesResponse>(
       'http://api.steampowered.com/IPlayerService/GetOwnedGames/v1', {params: {

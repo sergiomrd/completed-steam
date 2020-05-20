@@ -2,7 +2,7 @@
 <div class="container-fluid">
   <div class="row user-info">
     <div class="col">
-      <completed-steam-filters (filtered)="setFilters($event)"></completed-steam-filters>
+      <completed-steam-filters (search)="searchGame($event)" (filtered)="setFilters($event)"></completed-steam-filters>
     </div>
     <div class="col remaining">
       <p *ngIf="this.remainingGames"><span class="number">{{this.remainingGames}}</span> GAMES REMAINING</p>

@@ -1,9 +1,9 @@
 <div id="filters" class="row">
   <div class="col-4 search">
     <div class="input-group">
-      <i class="fas fa-search search-icon"></i>
-      <input type="text" id="search" class="search form-control" placeholder="Search game"
-        (keyup.enter)="search($event.target.value)" />
+      <i class="fas fa-search search-icon" (click)="onSearch()"></i>
+      <input type="text" id="search" class="search form-control" placeholder="Search game" (keyup)="onKey($event)"
+        (keyup.enter)="onSearch()" />
     </div>
   </div>
   <div class="col filters">

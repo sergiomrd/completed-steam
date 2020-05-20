@@ -9,18 +9,22 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class FiltersComponent implements OnInit {
   filters: typeof Filters;
   checkFilters: CheckFilters;
+  searchText: string;
 
-  @Output() filtered = new EventEmitter()
+  @Output() filtered = new EventEmitter();
+  @Output() search = new EventEmitter();
 
   constructor() {}
 
   ngOnInit(): void {
+    this.searchText = '';
     this.filters = Filters;
     this.checkFilters = {
       all: true,
       completed: false,
-      notCompleted: false
-    }
+      notCompleted: false,
+      search: false
+    };
   }
 
   setFilters(value: Filters) {
@@ -29,22 +33,25 @@ export class FiltersComponent implements OnInit {
   }
 
   changeCheckBoxes(value: Filters) {
-
-    for(const check in this.checkFilters) {
-      if(Object.prototype.hasOwnProperty.call(this.checkFilters, check)){
-        if(check === value) {
+    for (const check in this.checkFilters) {
+      if (Object.prototype.hasOwnProperty.call(this.checkFilters, check)) {
+        if (check === value) {
           this.checkFilters[check] = true;
         } else {
           this.checkFilters[check] = false;
         }
       }
     }
-
   }
 
-  search(value: string) {
-    
+  onSearch() {
+    if (this.searchText && this.searchText.length > 2) {
+      this.changeCheckBoxes(Filters.Search);
+      this.search.emit(this.searchText);
+    }
   }
 
-
+  onKey(value: KeyboardEvent) {
+    this.searchText = (value.target as HTMLInputElement).value;
+  }
 }

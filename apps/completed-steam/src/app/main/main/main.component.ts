@@ -126,4 +126,15 @@ export class MainComponent implements OnInit {
     this.canLoadGames = true;
     this.getOwnedGames(this.steamid, this.currentLoadedPage);
   }
+
+  searchGame(text: string) {
+    this.activeFilter = Filters.Search;
+    this.canScroll = true;
+    this.canLoadGames = true;
+    this.http.get(`${environment.API}api/games/owned/search/${this.encryptService.encrypt(this.steamid)}`, {params: {showAppInfo: 'true', showFreeGames: 'true', limit: '10', filter: this.activeFilter, search: text }}).subscribe((response: OwnedGamesResponse) => {
+      if(response) {
+        this.allGames = this.setCompletedGames(response.games);
+      }
+    });
+  }
 }
