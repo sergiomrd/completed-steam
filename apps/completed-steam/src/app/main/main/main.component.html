@@ -1,11 +1,11 @@
 <completed-steam-header></completed-steam-header>
 <div class="container-fluid">
   <div class="row user-info">
-    <div class="col-auto">
+    <div class="col">
       <completed-steam-filters (filtered)="setFilters($event)"></completed-steam-filters>
     </div>
-    <div class="col-4 remaining">
-      <p *ngIf="this.remainingGames">{{this.remainingGames}} GAMES REMAINING</p>
+    <div class="col remaining">
+      <p *ngIf="this.remainingGames"><span class="number">{{this.remainingGames}}</span> GAMES REMAINING</p>
     </div>
   </div>
   <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
@@ -13,10 +13,13 @@
     <div class="row games-view">
       <completed-steam-game-book class="col-auto" *ngFor='let game of allGames' [game]="game"
         (update)="updateBooks($event)"></completed-steam-game-book>
+      <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading">
+        <p>You don't have games</p>
+      </div>
     </div>
     <div class="row spinner">
       <div class="col-12">
-        <ngx-spinner bdColor="#66ccff" size="small" color="#66ccff" type="ball-pulse" [fullScreen]="false">
+        <ngx-spinner bdColor="#42bfff" size="small" color="#42bfff" type="ball-pulse" [fullScreen]="false"><p class="text">Loading games</p>
         </ngx-spinner>
       </div>
     </div>

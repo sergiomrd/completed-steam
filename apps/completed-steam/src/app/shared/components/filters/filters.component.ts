@@ -42,5 +42,9 @@ export class FiltersComponent implements OnInit {
 
   }
 
+  search(value: string) {
+    
+  }
+
 
 }

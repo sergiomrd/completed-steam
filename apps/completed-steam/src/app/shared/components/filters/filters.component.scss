@@ -2,7 +2,8 @@
   color: #85898e;
 
   .filters {
-    align-items: center;
+    align-items: flex-end;
+    display: inline-flex;
 
     p {
       margin: 0;
@@ -19,7 +20,7 @@
     }
 
     .no-event {
-        pointer-events: none;
+      pointer-events: none;
     }
 
     .custom-control {
@@ -42,11 +43,11 @@
           }
         }
 
-        &:disabled{
-            &~.custom-control-label {
-                color: #85898e;
-            }
-            
+        &:disabled {
+          &~.custom-control-label {
+            color: #85898e;
+          }
+
         }
       }
 
@@ -60,6 +61,14 @@
       padding-right: 1.5rem;
       outline: 0;
 
+      &:hover {
+
+        &::before {
+          border: 1px solid #b9b9b9; 
+        }
+
+      }
+
       &::before {
 
 
@@ -72,6 +81,7 @@
         background-color: #212934;
         width: 14px;
         height: 14px;
+
       }
 
       &::after {
@@ -87,6 +97,70 @@
         border: 0;
         width: 10px;
         height: 10px;
+      }
+    }
+  }
+
+  .search {
+    display: inline-flex;
+    $placeholder_color: #85898e;
+    $icon_color: #212934;
+
+    .input-group {
+      color: #85898e;
+      align-items: center;
+
+      .search-icon {
+        position: absolute;
+        z-index: 999;
+        left: auto;
+        right: 1%;
+        height: 32px;
+        width: 12%;
+        text-align: center;
+        color: #212934;
+        background: #85898e;
+        border: 1px solid #85898e;
+        border-radius: 3px;
+        font-size: 20px;
+
+        &:hover {
+          background-color: #b9b9b9;
+          border-color: #b9b9b9;
+          cursor: pointer;
+        }
+
+        &::before {
+          vertical-align: sub;
+        }
+      }
+
+      .search {
+        border: 1px solid #85898e;
+        background-color: #212934;
+        border-radius: 0;
+
+      }
+
+      .form-control {
+        color: #85898e;
+
+        &:focus {
+          border-color: unset;
+          box-shadow: unset;
+        }
+
+        &:hover {
+          border: 1px solid #b9b9b9;
+        }
+      }
+
+      input::placeholder {
+        color: $placeholder_color;
+      }
+
+      input:focus::placeholder {
+        color: transparent;
       }
     }
   }

@@ -29,6 +29,7 @@ export class MainComponent implements OnInit {
   totalGames: number;
   remainingGames: number;
   activeFilter: Filters;
+  loading: boolean;
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private database: DatabaseService, private spinner: NgxSpinnerService, private encryptService: EncryptService) {
     this.allGames = [];
     this.completedGames = [];
@@ -40,12 +41,15 @@ export class MainComponent implements OnInit {
     this.canLoadGames = true;
     this.currentLoadedPage = 0;
     this.activeFilter = Filters.All;
+    this.loading = true;
     this.loadUserData();
     this.getOwnedGames(this.steamid, this.currentLoadedPage);
   }
 
   getOwnedGames(id: string, pageToLoad: number) {
-    this.http.get(`${environment.API}api/games/owned/${this.encryptService.encrypt(id)}`, {params: {showAppInfo: 'true', showFreeGames: 'false', limit: '50', page: pageToLoad.toString(), filter: this.activeFilter }}).subscribe((response: OwnedGamesResponse) => {
+    this.loading = true;
+    this.spinner.show();
+    this.http.get(`${environment.API}api/games/owned/${this.encryptService.encrypt(id)}`, {params: {showAppInfo: 'true', showFreeGames: 'true', limit: '50', page: pageToLoad.toString(), filter: this.activeFilter }}).subscribe((response: OwnedGamesResponse) => {
       this.totalGames = response.game_count;
       this.getRemainingGames();
       if(pageToLoad === 0) {
@@ -60,6 +64,8 @@ export class MainComponent implements OnInit {
           this.spinner.hide();
         }
       }
+      this.loading = false;
+      this.spinner.hide();
     })
   }
 
