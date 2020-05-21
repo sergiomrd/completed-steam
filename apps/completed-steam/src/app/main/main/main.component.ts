@@ -11,6 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from '../../shared/models/user.interface';
+import { DeviceDetectionUtil } from '../../shared/utils/device-detection.util';
 
 @Component({
   selector: 'completed-steam-main',
@@ -30,9 +31,11 @@ export class MainComponent implements OnInit {
   remainingGames: number;
   activeFilter: Filters;
   loading: boolean;
+  isMobile: boolean;
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private database: DatabaseService, private spinner: NgxSpinnerService, private encryptService: EncryptService) {
     this.allGames = [];
     this.completedGames = [];
+    DeviceDetectionUtil.isMobile.subscribe((value: boolean) => (this.isMobile = value));
   }
 
   async ngOnInit() {

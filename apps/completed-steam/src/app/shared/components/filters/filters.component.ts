@@ -1,5 +1,6 @@
 import { Filters, CheckFilters } from './../../models/filters.interface';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { DeviceDetectionUtil } from '../../utils/device-detection.util';
 
 @Component({
   selector: 'completed-steam-filters',
@@ -10,11 +11,14 @@ export class FiltersComponent implements OnInit {
   filters: typeof Filters;
   checkFilters: CheckFilters;
   searchText: string;
+  isMobile: boolean;
 
   @Output() filtered = new EventEmitter();
   @Output() search = new EventEmitter();
 
-  constructor() {}
+  constructor() {
+    DeviceDetectionUtil.isMobile.subscribe((value: boolean) => (this.isMobile = value));
+  }
 
   ngOnInit(): void {
     this.searchText = '';

@@ -1,13 +1,13 @@
 <div id="filters" class="row">
-  <div class="col-4 search">
+  <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 search">
     <div class="input-group">
       <i class="fas fa-search search-icon" (click)="onSearch()"></i>
       <input type="text" id="search" class="search form-control" placeholder="Search game" (keyup)="onKey($event)"
         (keyup.enter)="onSearch()" />
     </div>
   </div>
-  <div class="col filters">
-    <div class="row ">
+  <div *ngIf="!isMobile" class="col filters">
+    <div class="row">
       <div class="col-auto filters-all">
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" id="all" name="all" (click)="setFilters(filters.All)"
@@ -30,6 +30,22 @@
             [disabled]="checkFilters.notCompleted">
           <label class="custom-control-label" for="not-completed">NOT COMPLETED</label>
         </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isMobile" class="col-12 filters">
+    <div class="row filter-row">
+      <div class="col filter filters-all" [ngClass]="{'active': checkFilters.all}" (click)="setFilters(filters.All)">
+        <p>ALL</p>
+      </div>
+      <div class="col filter filters-completed" [ngClass]="{'active': checkFilters.completed}"
+        (click)="setFilters(filters.Completed)">
+        <p>COMPLETED</p>
+      </div>
+
+      <div class="col filter filters-not-completed" [ngClass]="{'active': checkFilters.notCompleted}"
+        (click)="setFilters(filters.NotCompleted)">
+        <p>NOT COMPLETED</p>
       </div>
     </div>
   </div>

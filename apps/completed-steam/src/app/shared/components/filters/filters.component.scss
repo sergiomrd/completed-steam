@@ -1,5 +1,11 @@
+@import '../../../../assets/styles/responsive.scss';
+
 #filters {
   color: #85898e;
+
+  @include mobile {
+    flex-direction: column;
+  }
 
   .filters {
     align-items: flex-end;
@@ -97,6 +103,35 @@
         border: 0;
         width: 10px;
         height: 10px;
+      }
+    }
+
+    @include mobile {
+
+      justify-content: center;
+      display: block;
+
+      .filter-row {
+        margin-top: 3%;
+        margin-right: 0px;
+        margin-left: 0px;
+        text-align: center;
+      }
+
+      .filter {
+        color: #212934;
+        background: #5f62656b;
+        border-right: 1px solid #212934;
+        margin: 1px;
+        height: 50px;
+        justify-content: center;
+        align-self: center;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .active {
+        background: #85898e;
       }
     }
   }
