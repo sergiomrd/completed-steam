@@ -32,6 +32,27 @@
       }
     }
 
+    @include tablet {
+      height: 300px;
+      width: 222px;
+    }
+
+    @include large-sm {
+      height: 360px;
+      width: 236px;
+    }
+
+    
+    @include large-md {
+      height: 360px;
+      width: 220px;
+    }
+
+    @include desktop {
+      height: 300px;
+      width: 205px;
+    }
+
     &:hover {
       transform: translateY(-0.25em);
       transition: all 0.1s ease-in;

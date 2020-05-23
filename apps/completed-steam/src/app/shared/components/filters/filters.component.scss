@@ -141,6 +141,11 @@
     $placeholder_color: #85898e;
     $icon_color: #212934;
 
+    @include tablet {
+      margin-top: 1%;
+      margin-bottom: 1%;
+    }
+
     .input-group {
       color: #85898e;
       align-items: center;

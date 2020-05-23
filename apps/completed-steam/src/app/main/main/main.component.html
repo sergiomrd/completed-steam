@@ -1,7 +1,7 @@
 <completed-steam-header></completed-steam-header>
 <div *ngIf="!isMobile" class="container-fluid">
   <div class="row user-info">
-    <div class="col">
+    <div class="col col-md-8">
       <completed-steam-filters (search)="searchGame($event)" (filtered)="setFilters($event)"></completed-steam-filters>
     </div>
     <div class="col remaining">

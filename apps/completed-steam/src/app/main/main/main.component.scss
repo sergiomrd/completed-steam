@@ -45,6 +45,10 @@
     @include mobile {
       margin: 10px 5px 10px 5px;
     }
+
+    @include desktop {
+      margin: 15px;
+    }
   }
 
   .no-results {
