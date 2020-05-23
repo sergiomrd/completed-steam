@@ -37,8 +37,8 @@
   </div>
   <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
     (scrolled)="onScroll()">
-    <div class="row row-cols-3 games-view">
-      <completed-steam-game-book class="col-auto" *ngFor='let game of allGames' [game]="game"
+    <div class="row row-cols-2 games-view">
+      <completed-steam-game-book class="col" *ngFor='let game of allGames' [game]="game"
         (update)="updateBooks($event)"></completed-steam-game-book>
       <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading">
         <p>You don't have games</p>

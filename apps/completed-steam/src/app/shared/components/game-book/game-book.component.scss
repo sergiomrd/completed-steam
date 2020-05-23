@@ -22,20 +22,25 @@
     margin-left: 15px;
 
     @include mobile {
-      height: 210px;
-      width: 144px;
+      height: 290px;
+      width: 125px;
       margin-left: 0px;
       max-height: none;
       max-width: none;
       transition: none;
 
+      @include mobile-xs {
+        height: 200px;
+        width: 154px;
+      }
+
       @include mobile-md {
-        height: 210px;
+        height: 260px;
         width: 154px;
       }
 
       @include mobile-lg {
-        height: 250px;
+        height: 290px;
         width: 174px;
       }
     }
@@ -102,6 +107,10 @@
       background-repeat: round;
       height: inherit;
       width: inherit;
+
+      @include mobile {
+        width: auto;
+      }
 
       &.mode-blur {
         -webkit-filter: blur(10px);
