@@ -1,6 +1,7 @@
 @import '../../../../assets/styles/responsive.scss';
 
 #game-book {
+  margin: 1px;
 
   @include mobile {
     margin: 1px;
@@ -19,7 +20,7 @@
     margin-top: 10px;
     padding-left: 0px;
     padding-right: 0px;
-    margin-left: 15px;
+    // margin-left: 15px;
 
     @include mobile {
       height: 290px;
@@ -40,7 +41,7 @@
       }
 
       @include mobile-lg {
-        height: 290px;
+        height: 260px;
         width: 174px;
       }
     }
@@ -106,7 +107,7 @@
       background-size: auto;
       background-repeat: round;
       height: inherit;
-      width: inherit;
+      width: auto;
 
       @include mobile {
         width: auto;
