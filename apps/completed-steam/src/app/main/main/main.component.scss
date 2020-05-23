@@ -40,16 +40,12 @@
   padding-top: 0px;
   margin-bottom: 2%;
 
-  completed-steam-game-book {
-    margin: 15px;
-    @include mobile {
-      margin: 10px 5px 10px 5px;
-    }
-
-    @include desktop {
-      margin: 15px;
-    }
-  }
+  // completed-steam-game-book {
+  //   margin: 15px;
+  //   @include mobile {
+  //     margin: 10px 5px 10px 5px;
+  //   }
+  // }
 
   .no-results {
     color: #42bfff;

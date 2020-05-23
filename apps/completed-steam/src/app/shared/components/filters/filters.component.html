@@ -1,12 +1,12 @@
 <div id="filters" class="row">
-  <div class="col-12 col-sm-4 col-md-8 col-lg-4 col-xl-4 search">
+  <div class="col-12 col-sm-8 col-md-8 col-lg-4 col-xl-4 search">
     <div class="input-group">
       <i class="fas fa-search search-icon" (click)="onSearch()"></i>
       <input type="text" id="search" class="search form-control" placeholder="Search game" (keyup)="onKey($event)"
         (keyup.enter)="onSearch()" />
     </div>
   </div>
-  <div *ngIf="!isMobile" class="col col-md-12 col-lg col-xl  filters">
+  <div *ngIf="!isMobile" class="col col-sm-12 col-md-12 col-lg col-xl  filters">
     <div class="row">
       <div class="col-auto filters-all">
         <div class="custom-control custom-checkbox">

@@ -28,8 +28,6 @@
     }
   }
 
-
-  
   @mixin desktop {
     @media  (min-width: 993px) and (max-width: 1200px) {
       @content;
@@ -43,7 +41,13 @@
   }
 
   @mixin large-md {
-    @media  (min-width: 1367px) and (max-width: 1536px) {
+    @media  (min-width: 1367px) and (max-width: 1440px) {
+      @content;
+    }
+  }
+
+  @mixin large-lg {
+    @media  (min-width: 1441px) and (max-width: 1536px) {
       @content;
     }
   }
