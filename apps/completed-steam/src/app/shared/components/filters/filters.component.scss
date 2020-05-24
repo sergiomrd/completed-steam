@@ -11,6 +11,10 @@
     align-items: flex-end;
     display: inline-flex;
 
+    @include tablet {
+      margin-top: 2%;
+    }
+
     p {
       margin: 0;
     }
@@ -140,29 +144,26 @@
     display: inline-flex;
     $placeholder_color: #85898e;
     $icon_color: #212934;
-
-    @include tablet {
-      margin-top: 1%;
-      margin-bottom: 1%;
-    }
+    margin-top: 0%;
+    margin-bottom: 0%;
 
     .input-group {
       color: #85898e;
       align-items: center;
 
       .search-icon {
-        position: absolute;
-        z-index: 999;
-        left: auto;
-        right: 1%;
-        height: 32px;
-        width: 12%;
-        text-align: center;
-        color: #212934;
-        background: #85898e;
-        border: 1px solid #85898e;
-        border-radius: 3px;
-        font-size: 20px;
+    position: absolute;
+    z-index: 999;
+    left: 87%;
+    right: auto;
+    height: 32px;
+    width: 12%;
+    text-align: center;
+    color: #212934;
+    background: #85898e;
+    border: 1px solid #85898e;
+    border-radius: 3px;
+    font-size: 20px;
 
         &:hover {
           background-color: #b9b9b9;

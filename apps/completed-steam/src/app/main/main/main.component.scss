@@ -1,7 +1,7 @@
 @import '../../../assets/styles/responsive.scss';
 
 .user-info {
-  margin-top: 1%;
+  margin-top: 2%;
   
   @include mobile {
     flex-direction: column;
@@ -39,7 +39,6 @@
 .games-view {
   padding-top: 0px;
   margin-bottom: 2%;
-  justify-content: center;
 
   completed-steam-game-book {
     @include mobile {

@@ -23,31 +23,63 @@
 }
 
 @mixin tablet {
-    @media  (min-width: 768px) and (max-width: 992px) {
+    @media  (min-width: 768px) {
+      @content;
+    }
+  }
+
+  @mixin tablet-sm {
+    @media  (min-width: 720px) {
+      @content;
+    }
+  }
+
+  @mixin tablet-md {
+    @media  (min-width: 1024px) {
       @content;
     }
   }
 
   @mixin desktop {
-    @media  (min-width: 993px) and (max-width: 1200px) {
+    @media (min-width: 1280px) {
       @content;
     }
   }
 
-  @mixin large-sm {
-    @media  (min-width: 1201px) and (max-width: 1366px) {
+  @mixin desktop-sm {
+    @media (min-width: 1366px) {
       @content;
     }
   }
 
-  @mixin large-md {
-    @media  (min-width: 1367px) and (max-width: 1440px) {
+  @mixin desktop-sm-2 {
+    @media (min-width: 1440px) {
       @content;
     }
   }
 
-  @mixin large-lg {
-    @media  (min-width: 1441px) and (max-width: 1536px) {
+  @mixin desktop-md {
+    @media (min-width: 1600px) {
       @content;
     }
   }
+
+  @mixin desktop-lg {
+    @media (min-width: 1680px) {
+      @content;
+    }
+  }
+
+  @mixin desktop-xl {
+    @media (min-width: 1920px) {
+      @content;
+    }
+  }
+
+  @mixin large {
+    @media (min-width: 1536px) {
+      @content;
+    }
+  }
+  
+
