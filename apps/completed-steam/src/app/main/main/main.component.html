@@ -13,19 +13,25 @@
     <div class="row row-cols-8 games-view">
       <completed-steam-game-book class="col col-md-auto" *ngFor='let game of allGames' [game]="game"
         (update)="updateBooks($event)"></completed-steam-game-book>
-      <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading">
+      <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading && activeFilter !== 'completed' ">
         <p>You don't have games</p>
+      </div>
+      <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading && activeFilter === 'completed'">
+        <p>You don't have games completed. Click on a card to complete it</p>
       </div>
     </div>
     <div class="row spinner">
       <div class="col-12">
-        <ngx-spinner name="full" bdColor="#01030c66" size="medium" color="#42bfff" type="ball-pulse" [fullScreen]="true"><p class="text">Loading games</p>
+        <ngx-spinner name="full" bdColor="#01030c66" size="medium" color="#42bfff" type="ball-pulse"
+          [fullScreen]="true">
+          <p class="text">Loading games</p>
         </ngx-spinner>
       </div>
     </div>
     <div class="row spinner">
       <div class="col-12">
-        <ngx-spinner name="pages" bdColor="#42bfff" size="small" color="#42bfff" type="ball-pulse" [fullScreen]="false"><p class="text"></p>
+        <ngx-spinner name="pages" bdColor="#42bfff" size="small" color="#42bfff" type="ball-pulse" [fullScreen]="false">
+          <p class="text"></p>
         </ngx-spinner>
       </div>
     </div>
@@ -44,21 +50,27 @@
   <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
     (scrolled)="onScroll()">
     <div class="row row-cols-2 games-view">
-      <completed-steam-game-book class="col" *ngFor='let game of allGames' [game]="game"
-        (update)="updateBooks($event)"></completed-steam-game-book>
-      <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading">
+      <completed-steam-game-book class="col" *ngFor='let game of allGames' [game]="game" (update)="updateBooks($event)">
+      </completed-steam-game-book>
+      <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading && activeFilter !== 'completed' ">
         <p>You don't have games</p>
+      </div>
+      <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading && activeFilter === 'completed'">
+        <p>You don't have games completed. Click on a card to complete it</p>
       </div>
     </div>
     <div class="row spinner">
       <div class="col-12">
-        <ngx-spinner name="full" bdColor="#01030c66" size="medium" color="#42bfff" type="ball-pulse" [fullScreen]="true"><p class="text">Loading games</p>
+        <ngx-spinner name="full" bdColor="#01030c66" size="medium" color="#42bfff" type="ball-pulse"
+          [fullScreen]="true">
+          <p class="text">Loading games</p>
         </ngx-spinner>
       </div>
     </div>
     <div class="row spinner">
       <div class="col-12">
-        <ngx-spinner name="pages" bdColor="#42bfff" size="small" color="#42bfff" type="ball-pulse" [fullScreen]="false"><p class="text"></p>
+        <ngx-spinner name="pages" bdColor="#42bfff" size="small" color="#42bfff" type="ball-pulse" [fullScreen]="false">
+          <p class="text"></p>
         </ngx-spinner>
       </div>
     </div>

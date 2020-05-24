@@ -146,6 +146,10 @@
       transition: all 0.2s ease-in;
       filter: blur(2px) brightness(0.8) grayscale(0.8);
 
+      @include mobile {
+        transition: none;
+      }
+
     }
 
     .background {
@@ -195,13 +199,6 @@
       transition: all 0.1s ease-in;
       display: flex;
       width: 100%;
-      // .name {
-      //   display: block;
-      //   transform: translateY(-85%);
-      //   background: rgba(102, 204, 255, 1);
-      //   border-radius: 3px;
-      //   width: 90%;
-      // }
     }
 
     @include mobile {

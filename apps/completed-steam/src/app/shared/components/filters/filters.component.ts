@@ -24,9 +24,9 @@ export class FiltersComponent implements OnInit {
     this.searchText = '';
     this.filters = Filters;
     this.checkFilters = {
-      all: true,
+      all: false,
       completed: false,
-      notCompleted: false,
+      notCompleted: true,
       search: false
     };
   }

@@ -31,6 +31,7 @@ export class MainComponent implements OnInit {
   completedGames: string[];
   totalGames: number;
   remainingGames: number;
+  filters: typeof Filters;
   activeFilter: Filters;
   loading: boolean;
   isMobile: boolean;
@@ -44,7 +45,7 @@ export class MainComponent implements OnInit {
     const id = localStorage.getItem('id');
     this.canScroll = true;
     this.canLoadGames = true;
-    this.activeFilter = Filters.All;
+    this.activeFilter = Filters.NotCompleted;
     this.loading = true;
     this.spinner.show('full');
 
