@@ -54,15 +54,20 @@ export class GameController {
               response.data['response'].games
             ).then(games => (this.games = games));
 
-            if (limit) {
-              this.games = this.games.slice(page * limit, (+page + 1) * limit);
-            }
+            if (this.games && this.games.length > 0) {
+              if (limit) {
+                this.games = this.games.slice(
+                  page * limit,
+                  (+page + 1) * limit
+                );
+              }
 
-            await Promise.all(
-              this.games.map(async (game: Game) => {
-                game.background = await this.getImage(game.appid, 0);
-              })
-            );
+              await Promise.all(
+                this.games.map(async (game: Game) => {
+                  game.background = await this.getImage(game.appid, 0);
+                })
+              );
+            }
 
             return {
               games: this.games,
@@ -122,7 +127,12 @@ export class GameController {
       );
   }
 
-  async getFilteredGames(id: string,filter: string,games: Game[],search?: string): Promise<Game[]> {
+  async getFilteredGames(
+    id: string,
+    filter: string,
+    games: Game[],
+    search?: string
+  ): Promise<Game[]> {
     let completedGames = [];
     if (filter !== Filters.All) {
       const user = await this.databaseService.find(id);

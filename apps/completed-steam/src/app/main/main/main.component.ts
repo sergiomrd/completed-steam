@@ -47,28 +47,30 @@ export class MainComponent implements OnInit {
     this.loading = true;
     this.loadUserData();
     this.getOwnedGames(this.steamid, this.currentLoadedPage);
+    this.spinner.show('full');
   }
 
   getOwnedGames(id: string, pageToLoad: number) {
     this.loading = true;
-    this.spinner.show();
     this.http.get(`${environment.API}api/games/owned/${this.encryptService.encrypt(id)}`, {params: {showAppInfo: 'true', showFreeGames: 'true', limit: '50', page: pageToLoad.toString(), filter: this.activeFilter }}).subscribe((response: OwnedGamesResponse) => {
       this.totalGames = response.game_count;
       this.getRemainingGames();
       if(pageToLoad === 0) {
         this.allGames = this.setCompletedGames(response.games);
       } else {
-        if(response.games.length > 0) {
+        if(response.games && response.games.length > 0) {
           this.allGames = this.allGames.concat(this.setCompletedGames(response.games));
           this.canScroll = true;
         } else {
           this.canScroll = false;
           this.canLoadGames = false;
-          this.spinner.hide();
+          this.spinner.hide('full');
+          this.spinner.hide('pages');
         }
       }
       this.loading = false;
-      this.spinner.hide();
+      this.spinner.hide('full');
+      this.spinner.hide('pages');
     })
   }
 
@@ -77,6 +79,7 @@ export class MainComponent implements OnInit {
       this.spinner.show();
       this.canScroll = false;
       this.currentLoadedPage += 1;
+      this.spinner.show('pages');
       this.getOwnedGames(this.steamid, this.currentLoadedPage)
     }
   }
@@ -127,6 +130,7 @@ export class MainComponent implements OnInit {
     this.activeFilter = value;
     this.canScroll = true;
     this.canLoadGames = true;
+    this.spinner.show('full');
     this.getOwnedGames(this.steamid, this.currentLoadedPage);
   }
 
@@ -134,9 +138,11 @@ export class MainComponent implements OnInit {
     this.activeFilter = Filters.Search;
     this.canScroll = true;
     this.canLoadGames = true;
+    this.spinner.show('full');
     this.http.get(`${environment.API}api/games/owned/search/${this.encryptService.encrypt(this.steamid)}`, {params: {showAppInfo: 'true', showFreeGames: 'true', limit: '10', filter: this.activeFilter, search: text }}).subscribe((response: OwnedGamesResponse) => {
       if(response) {
         this.allGames = this.setCompletedGames(response.games);
+        this.spinner.hide('full');
       }
     });
   }
