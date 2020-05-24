@@ -25,4 +25,8 @@ export class LoginComponent implements OnInit {
   goToMain() {
     this.router.navigate(['/main']);
   }
+
+  goToSample(){
+    this.router.navigate(['/main', 'sample']);
+  }
 }

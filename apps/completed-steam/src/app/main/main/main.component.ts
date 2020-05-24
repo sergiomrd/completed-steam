@@ -1,3 +1,5 @@
+import { SAMPLE_GAMES_COMPLETED } from './../../shared/models/const/sample.const';
+import { SAMPLE_GAMES } from '../../shared/models/const/sample.const';
 import { Filters } from './../../shared/models/filters.interface';
 import { EncryptService } from './../../shared/services/encrypt/encrypt.service';
 import { DatabaseService } from './../../shared/services/database/database.service';
@@ -39,15 +41,27 @@ export class MainComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.steamid = this.encryptService.decrypt(localStorage.getItem('id'));
+    const id = localStorage.getItem('id');
     this.canScroll = true;
     this.canLoadGames = true;
-    this.currentLoadedPage = 0;
     this.activeFilter = Filters.All;
     this.loading = true;
-    this.loadUserData();
-    this.getOwnedGames(this.steamid, this.currentLoadedPage);
     this.spinner.show('full');
+
+
+    if(id.includes('sample')) { 
+      this.steamid = id;
+      this.loadSample();
+    } else {
+      this.loadUserData();
+      this.steamid = this.encryptService.decrypt(localStorage.getItem('id'));
+      this.currentLoadedPage = 0;
+      this.getOwnedGames(this.steamid, this.currentLoadedPage);
+    }
+  }
+
+  loadSample() {
+    this.getSampleGames(0);
   }
 
   getOwnedGames(id: string, pageToLoad: number) {
@@ -74,13 +88,36 @@ export class MainComponent implements OnInit {
     })
   }
 
+  getSampleGames( pageToLoad: number) {
+    this.loading = true;
+    this.totalGames = 100;
+    this.getRemainingGames();
+    if(pageToLoad === 0) {
+      this.allGames = SAMPLE_GAMES.slice(0, 50);
+    } else {
+      this.allGames = SAMPLE_GAMES;
+    }
+
+    this.spinner.hide('full');
+    this.spinner.hide('pages');
+    if(this.allGames.length === SAMPLE_GAMES.length) {
+      this.canScroll = false;
+      this.canLoadGames = false;
+    }
+    this.loading = false;
+  }
+
   onScroll() {
     if(this.canScroll && this.canLoadGames) {
       this.spinner.show();
       this.canScroll = false;
       this.currentLoadedPage += 1;
       this.spinner.show('pages');
-      this.getOwnedGames(this.steamid, this.currentLoadedPage)
+      if(this.steamid.includes('sample')) {
+        this.getSampleGames(this.currentLoadedPage);
+      } else {
+        this.getOwnedGames(this.steamid, this.currentLoadedPage)
+      }
     }
   }
 
@@ -105,7 +142,7 @@ export class MainComponent implements OnInit {
         }
       }
 
-      if(this.user) {
+      if(this.user && !this.steamid.includes('sample')) {
         this.database.updateUser({steamid: this.encryptService.encrypt(this.steamid), completedGames: this.completedGames});
       }
       this.getRemainingGames()
@@ -131,7 +168,11 @@ export class MainComponent implements OnInit {
     this.canScroll = true;
     this.canLoadGames = true;
     this.spinner.show('full');
-    this.getOwnedGames(this.steamid, this.currentLoadedPage);
+    if(this.steamid.includes('sample')) {
+      this.getFilteredSampleGames();
+    } else {
+      this.getOwnedGames(this.steamid, this.currentLoadedPage);
+    }
   }
 
   searchGame(text: string) {
@@ -139,11 +180,42 @@ export class MainComponent implements OnInit {
     this.canScroll = true;
     this.canLoadGames = true;
     this.spinner.show('full');
-    this.http.get(`${environment.API}api/games/owned/search/${this.encryptService.encrypt(this.steamid)}`, {params: {showAppInfo: 'true', showFreeGames: 'true', limit: '10', filter: this.activeFilter, search: text }}).subscribe((response: OwnedGamesResponse) => {
-      if(response) {
-        this.allGames = this.setCompletedGames(response.games);
+    if(this.steamid.includes('sample')) {
+      this.getFilteredSampleGames(text);
+    } else {
+      this.http.get(`${environment.API}api/games/owned/search/${this.encryptService.encrypt(this.steamid)}`, {params: {showAppInfo: 'true', showFreeGames: 'true', limit: '50', filter: this.activeFilter, search: text }}).subscribe((response: OwnedGamesResponse) => {
+        if(response) {
+          this.allGames = this.setCompletedGames(response.games);
+          this.spinner.hide('full');
+        }
+      });
+    }
+  }
+
+  getFilteredSampleGames(search? :string) {
+    switch (this.activeFilter) {
+      case Filters.All:
+        this.allGames = SAMPLE_GAMES.slice(0, 50);
         this.spinner.hide('full');
-      }
-    });
+        break;
+
+      case Filters.Completed:
+        this.allGames = SAMPLE_GAMES_COMPLETED;
+        this.spinner.hide('full');
+        break;
+
+      case Filters.NotCompleted:
+        this.allGames = SAMPLE_GAMES.slice(50, SAMPLE_GAMES.length);
+        this.spinner.hide('full');
+        break;
+
+      case Filters.Search:
+        if (search) {
+          this.allGames = SAMPLE_GAMES.filter(game => {
+            return game.name.toLowerCase().trim().includes(search.toLowerCase());
+          });
+        }
+        this.spinner.hide('full');
+    }
   }
 }

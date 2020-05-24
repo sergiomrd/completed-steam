@@ -8,11 +8,12 @@ export interface Game {
   playtime_windows_forever: number,
   playtime_mac_forever: number,
   playtime_linux_forever: number,
-  completed: boolean;
-  background: GameBackground;
+  completed?: boolean;
+  background?: GameBackground;
+  playtime_2_weeks?: number,
 }
 
 export interface GameBackground {
-  type: number,
-  url: string
+  type?: number,
+  url?: string
 }

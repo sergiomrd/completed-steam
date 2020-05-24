@@ -1,7 +1,7 @@
 <div *ngIf="!isMobile" id="header" class="container-fluid">
   <div *ngIf="this.userInfo" class="row header">
     <div class="col-md-auto col-sm-auto header-avatar">
-      <a [href]="this.userInfo.profileurl"><img [src]="this.userInfo.avatar"></a>
+      <a [href]="this.userInfo.profileurl"><img [src]="this.userInfo.avatar" width="32" height="32"></a>
     </div>
     <div class="col-md-auto col-sm-auto header-name">
       <p class="name">{{this.userInfo.personaname}}</p>

@@ -158,7 +158,7 @@ export class GameController {
       case Filters.Search:
         if (search) {
           return games.filter(game => {
-            return game.name.toLowerCase().includes(search.toLowerCase());
+            return game.name.toLowerCase().trim().includes(search.toLowerCase());
           });
         }
     }
