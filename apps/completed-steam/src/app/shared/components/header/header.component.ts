@@ -23,11 +23,11 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     let id = localStorage.getItem('id');
 
-    if(!id.includes('sample')) {
+    if(id.includes('sample')) {
+      this.loadSampleUser();
+    } else {
       id = this.encryptService.decrypt(localStorage.getItem('id'));
       this.getUserInfo(id);
-    } else {
-      this.loadSampleUser();
     }
   }
 
@@ -36,8 +36,6 @@ export class HeaderComponent implements OnInit {
       if(response && response['players']) {
         const player: PlayerSummaries = response['players'][0];
         this.userInfo = player;
-      } else {
-        this.router.navigate(['/login']);
       }
     })
   }

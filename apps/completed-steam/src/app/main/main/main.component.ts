@@ -53,9 +53,9 @@ export class MainComponent implements OnInit {
       this.steamid = id;
       this.loadSample();
     } else {
-      this.loadUserData();
       this.steamid = this.encryptService.decrypt(localStorage.getItem('id'));
       this.currentLoadedPage = 0;
+      this.loadUserData();
       this.getOwnedGames(this.steamid, this.currentLoadedPage);
     }
   }
