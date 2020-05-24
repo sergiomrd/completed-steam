@@ -47,10 +47,19 @@
   }
 
   .no-results {
-    color: #42bfff;
+    color: #85898e;
     text-align: center;
     font-size: 30px;
     margin-top: 15%;
+
+    .sub-text {
+      font-size: 16px;
+    }
+
+    a {
+      color: #42bfff;
+      text-decoration: underline;
+    }
   }
 
   @include mobile {

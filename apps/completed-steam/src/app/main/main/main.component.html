@@ -13,8 +13,9 @@
     <div class="row row-cols-8 games-view">
       <completed-steam-game-book class="col col-md-auto" *ngFor='let game of allGames' [game]="game"
         (update)="updateBooks($event)"></completed-steam-game-book>
-      <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading && activeFilter !== 'completed' ">
-        <p>You don't have games</p>
+      <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading && activeFilter !== 'completed'">
+        <p>It appears you don't have any game.</p>
+        <p class="sub-text">Maybe you should change the status of your <a href="https://support.steampowered.com/kb_article.php?ref=4113-YUDH-6401">profile privacy to Public.</a></p>
       </div>
       <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading && activeFilter === 'completed'">
         <p>You don't have games completed. Click on a card to complete it</p>
@@ -52,8 +53,9 @@
     <div class="row row-cols-2 games-view">
       <completed-steam-game-book class="col" *ngFor='let game of allGames' [game]="game" (update)="updateBooks($event)">
       </completed-steam-game-book>
-      <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading && activeFilter !== 'completed' ">
-        <p>You don't have games</p>
+      <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading && activeFilter !== 'completed'">
+        <p>It appears you don't have any game.</p>
+        <p class="sub-text">Maybe you should change the status of your <a href="https://support.steampowered.com/kb_article.php?ref=4113-YUDH-6401">profile privacy to Public.</a></p>
       </div>
       <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading && activeFilter === 'completed'">
         <p>You don't have games completed. Click on a card to complete it</p>
