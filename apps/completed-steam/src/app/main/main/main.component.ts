@@ -4,7 +4,10 @@ import { Filters } from './../../shared/models/filters.interface';
 import { EncryptService } from './../../shared/services/encrypt/encrypt.service';
 import { DatabaseService } from './../../shared/services/database/database.service';
 import { UserService } from './../../shared/services/user/user.service';
-import { VanityUserResponse, OwnedGamesResponse } from './../../../../../api/src/app/models/user.interface';
+import {
+  VanityUserResponse,
+  OwnedGamesResponse
+} from './../../../../../api/src/app/models/user.interface';
 import { Game } from './../../../../../api/src/app/models/game.interface';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -35,10 +38,19 @@ export class MainComponent implements OnInit {
   activeFilter: Filters;
   loading: boolean;
   isMobile: boolean;
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private database: DatabaseService, private spinner: NgxSpinnerService, private encryptService: EncryptService) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute,
+    private database: DatabaseService,
+    private spinner: NgxSpinnerService,
+    private encryptService: EncryptService
+  ) {
     this.allGames = [];
     this.completedGames = [];
-    DeviceDetectionUtil.isMobile.subscribe((value: boolean) => (this.isMobile = value));
+    DeviceDetectionUtil.isMobile.subscribe(
+      (value: boolean) => (this.isMobile = value)
+    );
   }
 
   async ngOnInit() {
@@ -49,8 +61,7 @@ export class MainComponent implements OnInit {
     this.loading = true;
     this.spinner.show('full');
 
-
-    if(id.includes('sample')) { 
+    if (id.includes('sample')) {
       this.steamid = id;
       this.loadSample();
     } else {
@@ -67,33 +78,54 @@ export class MainComponent implements OnInit {
 
   getOwnedGames(id: string, pageToLoad: number) {
     this.loading = true;
-    this.http.get(`${environment.API}api/games/owned/${this.encryptService.encrypt(id)}`, {params: {showAppInfo: 'true', showFreeGames: 'true', limit: '50', page: pageToLoad.toString(), filter: this.activeFilter }}).subscribe((response: OwnedGamesResponse) => {
-      this.totalGames = response.game_count;
-      this.getRemainingGames();
-      if(pageToLoad === 0) {
-        this.allGames = this.setCompletedGames(response.games);
-      } else {
-        if(response.games && response.games.length > 0) {
-          this.allGames = this.allGames.concat(this.setCompletedGames(response.games));
-          this.canScroll = true;
-        } else {
-          this.canScroll = false;
-          this.canLoadGames = false;
-          this.spinner.hide('full');
-          this.spinner.hide('pages');
+    this.http
+      .get(
+        `${environment.API}api/games/owned/${this.encryptService.encrypt(id)}`,
+        {
+          params: {
+            showAppInfo: 'true',
+            showFreeGames: 'true',
+            limit: '50',
+            page: pageToLoad.toString(),
+            filter: this.activeFilter
+          }
         }
-      }
-      this.loading = false;
-      this.spinner.hide('full');
-      this.spinner.hide('pages');
-    })
+      )
+      .subscribe((response: OwnedGamesResponse) => {
+        if (response) {
+          if (response.game_count) {
+            this.totalGames = response.game_count;
+            this.getRemainingGames();
+          }
+          if (response.games) {
+            if (pageToLoad === 0) {
+              this.allGames = this.setCompletedGames(response.games);
+            } else {
+              if (response.games && response.games.length > 0) {
+                this.allGames = this.allGames.concat(
+                  this.setCompletedGames(response.games)
+                );
+                this.canScroll = true;
+              } else {
+                this.canScroll = false;
+                this.canLoadGames = false;
+                this.spinner.hide('full');
+                this.spinner.hide('pages');
+              }
+            }
+          }
+        }
+        this.loading = false;
+        this.spinner.hide('full');
+        this.spinner.hide('pages');
+      });
   }
 
-  getSampleGames( pageToLoad: number) {
+  getSampleGames(pageToLoad: number) {
     this.loading = true;
     this.totalGames = 100;
     this.getRemainingGames();
-    if(pageToLoad === 0) {
+    if (pageToLoad === 0) {
       this.allGames = SAMPLE_GAMES.slice(0, 50);
     } else {
       this.allGames = SAMPLE_GAMES;
@@ -101,7 +133,7 @@ export class MainComponent implements OnInit {
 
     this.spinner.hide('full');
     this.spinner.hide('pages');
-    if(this.allGames.length === SAMPLE_GAMES.length) {
+    if (this.allGames.length === SAMPLE_GAMES.length) {
       this.canScroll = false;
       this.canLoadGames = false;
     }
@@ -109,54 +141,60 @@ export class MainComponent implements OnInit {
   }
 
   onScroll() {
-    if(this.canScroll && this.canLoadGames) {
+    if (this.canScroll && this.canLoadGames) {
       this.spinner.show();
       this.canScroll = false;
       this.currentLoadedPage += 1;
       this.spinner.show('pages');
-      if(this.steamid.includes('sample')) {
+      if (this.steamid.includes('sample')) {
         this.getSampleGames(this.currentLoadedPage);
       } else {
-        this.getOwnedGames(this.steamid, this.currentLoadedPage)
+        this.getOwnedGames(this.steamid, this.currentLoadedPage);
       }
     }
   }
 
   setCompletedGames(games: Game[]): Game[] {
     const aux: Game[] = games;
-    if(this.completedGames && this.completedGames.length > 0) {
+    if (this.completedGames && this.completedGames.length > 0) {
       aux.map((game: Game) => {
-        game.completed = this.completedGames.indexOf(game.appid.toString()) > -1;
-      })
+        game.completed =
+          this.completedGames.indexOf(game.appid.toString()) > -1;
+      });
     }
     return aux;
   }
 
   async updateBooks(event: any) {
-    if(event) {
-      if(event.completed) {
+    if (event) {
+      if (event.completed) {
         this.completedGames.push(event.appid);
       } else {
         const id = this.completedGames.indexOf(event.appid);
-        if(id > -1){
+        if (id > -1) {
           this.completedGames.splice(id, 1);
         }
       }
 
-      if(this.user && !this.steamid.includes('sample')) {
-        this.database.updateUser({steamid: this.encryptService.encrypt(this.steamid), completedGames: this.completedGames});
+      if (this.user && !this.steamid.includes('sample')) {
+        this.database.updateUser({
+          steamid: this.encryptService.encrypt(this.steamid),
+          completedGames: this.completedGames
+        });
       }
-      this.getRemainingGames()
+      this.getRemainingGames();
     }
   }
 
   async loadUserData() {
-    await this.database.findUser(this.encryptService.encrypt(this.steamid)).then((response) => {
-      this.user = response;
-      if(this.user && this.user.completedGames) {
-        this.completedGames = this.user.completedGames;
-      }
-    });
+    await this.database
+      .findUser(this.encryptService.encrypt(this.steamid))
+      .then(response => {
+        this.user = response;
+        if (this.user && this.user.completedGames) {
+          this.completedGames = this.user.completedGames;
+        }
+      });
   }
 
   getRemainingGames() {
@@ -169,7 +207,7 @@ export class MainComponent implements OnInit {
     this.canScroll = true;
     this.canLoadGames = true;
     this.spinner.show('full');
-    if(this.steamid.includes('sample')) {
+    if (this.steamid.includes('sample')) {
       this.getFilteredSampleGames();
     } else {
       this.getOwnedGames(this.steamid, this.currentLoadedPage);
@@ -181,19 +219,34 @@ export class MainComponent implements OnInit {
     this.canScroll = true;
     this.canLoadGames = true;
     this.spinner.show('full');
-    if(this.steamid.includes('sample')) {
+    if (this.steamid.includes('sample')) {
       this.getFilteredSampleGames(text);
     } else {
-      this.http.get(`${environment.API}api/games/owned/search/${this.encryptService.encrypt(this.steamid)}`, {params: {showAppInfo: 'true', showFreeGames: 'true', limit: '50', filter: this.activeFilter, search: text }}).subscribe((response: OwnedGamesResponse) => {
-        if(response) {
-          this.allGames = this.setCompletedGames(response.games);
-          this.spinner.hide('full');
-        }
-      });
+      this.http
+        .get(
+          `${
+            environment.API
+          }api/games/owned/search/${this.encryptService.encrypt(this.steamid)}`,
+          {
+            params: {
+              showAppInfo: 'true',
+              showFreeGames: 'true',
+              limit: '50',
+              filter: this.activeFilter,
+              search: text
+            }
+          }
+        )
+        .subscribe((response: OwnedGamesResponse) => {
+          if (response) {
+            this.allGames = this.setCompletedGames(response.games);
+            this.spinner.hide('full');
+          }
+        });
     }
   }
 
-  getFilteredSampleGames(search? :string) {
+  getFilteredSampleGames(search?: string) {
     switch (this.activeFilter) {
       case Filters.All:
         this.allGames = SAMPLE_GAMES.slice(0, 50);
@@ -213,7 +266,10 @@ export class MainComponent implements OnInit {
       case Filters.Search:
         if (search) {
           this.allGames = SAMPLE_GAMES.filter(game => {
-            return game.name.toLowerCase().trim().includes(search.toLowerCase());
+            return game.name
+              .toLowerCase()
+              .trim()
+              .includes(search.toLowerCase());
           });
         }
         this.spinner.hide('full');
