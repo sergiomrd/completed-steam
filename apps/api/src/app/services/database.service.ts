@@ -11,14 +11,13 @@ export class DatabaseService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>, private encryptService: EncryptService) {}
   private readonly logger = new Logger(DatabaseService.name);
   async create(userDto: UserDto): Promise<User> {
-    // userDto.steamid = this.encryptService.decrypt(userDto.steamid);
     const createdUser = new this.userModel(userDto);
     return createdUser.save();
   }
 
   async update(userDto: UserDto): Promise<User> {
     const decryptedId = this.encryptService.decrypt(userDto.steamid);
-    return this.userModel.updateOne({steamid: decryptedId}, {completedGames: userDto.completedGames});
+    return this.userModel.updateOne({steamid: decryptedId}, {completedGames: userDto.completedGames, modificationDate: new Date().toISOString()});
   }
 
   async find(id: string) {

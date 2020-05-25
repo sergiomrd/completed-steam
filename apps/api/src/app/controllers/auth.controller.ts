@@ -46,7 +46,9 @@ export class AuthController {
 
       const newUser = await this.databaseService.create({
         steamid: req.user.id,
-        completedGames: []
+        completedGames: [],
+        creationDate: new Date().toISOString(),
+        modificationDate: new Date().toISOString()
       });
 
       this.logger.log(`${newUser? 'User created' : 'User not created'}`);

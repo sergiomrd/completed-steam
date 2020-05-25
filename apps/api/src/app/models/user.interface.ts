@@ -26,5 +26,7 @@ export interface User extends Document {
     id: string;
     steamid: string;
     completedGames: string[];
+    creationDate: string,
+    modificationDate: string
 }
 
