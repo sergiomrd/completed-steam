@@ -1,12 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@fortawesome/fontawesome-free/css/all.css';
 
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
-@import '~@fortawesome/fontawesome-free/css/all.css';
+@import "tailwindcss";
+@source "./**/*.{html,ts}";
 
+@theme {
+  --color-steam-base: #2d333c;
+  --color-steam-surface: #212934;
+  --color-steam-surface-hover: #293442;
+  --color-steam-dark: #03172d;
+  --color-steam-slate: #28323e;
+  --color-steam-blue: #42bfff;
+  --color-steam-cyan: #66ccff;
+  --color-steam-muted: #85898e;
+  --color-steam-border: #6c7174;
+  --color-steam-divider: #424547;
+
+  --font-brand: 'Paytone One', sans-serif;
+  --font-sans: 'Lato', system-ui, sans-serif;
+}
 
 body {
-    background-color: #2d333c;
-    height: 100vh;
-    font-family: 'Lato', sans-serif;
+  background-color: var(--color-steam-base);
+  min-height: 100vh;
+  font-family: var(--font-sans);
 }

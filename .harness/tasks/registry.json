@@ -1,0 +1,438 @@
+{
+  "$schema": "./schema.json",
+  "version": "1.0.0",
+  "lastUpdated": "2026-09-28T14:25:00Z",
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "title": "Harness & Multi-Agent Framework Setup",
+      "layer": "harness",
+      "paths": [
+        ".harness",
+        "AGENTS.md"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": []
+    },
+    {
+      "id": "TASK-002",
+      "title": "Workspace & Dependencies Upgrade",
+      "layer": "root",
+      "paths": [
+        "package.json",
+        "tsconfig.json",
+        "nx.json"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-001"
+      ]
+    },
+    {
+      "id": "TASK-003",
+      "title": "Clean Architecture: Domain Layer",
+      "layer": "domain",
+      "paths": [
+        "libs/domain"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-002"
+      ]
+    },
+    {
+      "id": "TASK-004",
+      "title": "Clean Architecture: Application Layer",
+      "layer": "application",
+      "paths": [
+        "libs/application"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-003"
+      ]
+    },
+    {
+      "id": "TASK-005",
+      "title": "Clean Architecture: Infrastructure Layer",
+      "layer": "infrastructure",
+      "paths": [
+        "libs/infrastructure"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-003",
+        "TASK-004"
+      ]
+    },
+    {
+      "id": "TASK-006",
+      "title": "Modernize Backend API",
+      "layer": "api",
+      "paths": [
+        "apps/api"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-004",
+        "TASK-005"
+      ]
+    },
+    {
+      "id": "TASK-007",
+      "title": "Modernize Frontend App",
+      "layer": "frontend",
+      "paths": [
+        "apps/completed-steam"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-003",
+        "TASK-004"
+      ]
+    },
+    {
+      "id": "TASK-008",
+      "title": "Full Monorepo Harness Verification",
+      "layer": "verification",
+      "paths": [
+        "."
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-006",
+        "TASK-007"
+      ]
+    },
+    {
+      "id": "TASK-009",
+      "title": "Backend: Purify Controllers with new Use Cases",
+      "layer": "api",
+      "paths": [
+        "libs/application",
+        "apps/api"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-008"
+      ]
+    },
+    {
+      "id": "TASK-010",
+      "title": "Frontend: Infrastructure Layer (Ports + HTTP Adapters)",
+      "layer": "frontend",
+      "paths": [
+        "apps/completed-steam/src/app/infrastructure"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-008"
+      ]
+    },
+    {
+      "id": "TASK-011",
+      "title": "Frontend: Use Cases Layer",
+      "layer": "frontend",
+      "paths": [
+        "apps/completed-steam/src/app/use-cases"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-010"
+      ]
+    },
+    {
+      "id": "TASK-012",
+      "title": "Frontend: Signal Stores",
+      "layer": "frontend",
+      "paths": [
+        "apps/completed-steam/src/app/stores"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-011"
+      ]
+    },
+    {
+      "id": "TASK-013",
+      "title": "Frontend: Refactor Components to Pure Presentation",
+      "layer": "frontend",
+      "paths": [
+        "apps/completed-steam/src/app"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-012"
+      ]
+    },
+    {
+      "id": "TASK-014",
+      "title": "Final Verification + ADRs Update",
+      "layer": "verification",
+      "paths": [
+        "."
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-009",
+        "TASK-013"
+      ]
+    },
+    {
+      "id": "TASK-015",
+      "title": "Decouple Frontend & Backend Domains (Models Only) + Local MongoDB Setup",
+      "layer": "core",
+      "paths": [
+        "libs/domain",
+        "apps/completed-steam/src/app/domain",
+        "apps/api"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-014"
+      ]
+    },
+    {
+      "id": "TASK-016",
+      "title": "Subdomain Separation: User and Game Bounded Contexts",
+      "layer": "domain",
+      "paths": [
+        "libs/domain",
+        "apps/completed-steam/src/app/domain"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-015"
+      ]
+    },
+    {
+      "id": "TASK-017",
+      "title": "Organize Domain Controllers into Dedicated controllers Folders",
+      "layer": "api",
+      "paths": [
+        "apps/api/src/app"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-016"
+      ]
+    },
+    {
+      "id": "TASK-018",
+      "title": "Zoneless Angular Migration & Complete inject() Usage",
+      "layer": "frontend",
+      "paths": [
+        "apps/completed-steam/src/app/app.config.ts",
+        "apps/completed-steam/src/polyfills.ts",
+        "apps/completed-steam/src/test-setup.ts"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-017"
+      ]
+    },
+    {
+      "id": "TASK-019",
+      "title": "UI/UX Design Analysis & TailwindCSS Migration Strategy (DESIGN.md)",
+      "layer": "docs",
+      "paths": [
+        "DESIGN.md"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-018"
+      ]
+    },
+    {
+      "id": "TASK-020",
+      "title": "Install and Configure Tailwind CSS v4 in Angular Pipeline",
+      "layer": "frontend",
+      "paths": [
+        "package.json",
+        "apps/completed-steam/src/styles.scss"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-019"
+      ]
+    },
+    {
+      "id": "TASK-021",
+      "title": "Tailwind Migration: LoginComponent",
+      "layer": "frontend",
+      "paths": [
+        "apps/completed-steam/src/app/login"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-020"
+      ]
+    },
+    {
+      "id": "TASK-022",
+      "title": "Tailwind Migration: HeaderComponent (Unified Responsive Template)",
+      "layer": "frontend",
+      "paths": [
+        "apps/completed-steam/src/app/shared/components/header"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-020"
+      ]
+    },
+    {
+      "id": "TASK-023",
+      "title": "Tailwind Migration: FiltersComponent & ScrollToTopComponent",
+      "layer": "frontend",
+      "paths": [
+        "apps/completed-steam/src/app/shared/components/filters",
+        "apps/completed-steam/src/app/shared/components/scroll-to-top"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-020"
+      ]
+    },
+    {
+      "id": "TASK-024",
+      "title": "Tailwind Migration: GameBookComponent (Modern Responsive Capsule Card)",
+      "layer": "frontend",
+      "paths": [
+        "apps/completed-steam/src/app/shared/components/game-book"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-020"
+      ]
+    },
+    {
+      "id": "TASK-025",
+      "title": "Tailwind Migration: MainComponent (Single Responsive Grid, Zero Dual DOM)",
+      "layer": "frontend",
+      "paths": [
+        "apps/completed-steam/src/app/main"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-022",
+        "TASK-023",
+        "TASK-024"
+      ]
+    },
+    {
+      "id": "TASK-026",
+      "title": "Deprecate Bootstrap & Responsive SCSS, Final Verification",
+      "layer": "frontend",
+      "paths": [
+        "package.json",
+        "apps/completed-steam/src/assets/styles",
+        "apps/completed-steam/src/app/shared/services/screen"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-021",
+        "TASK-025"
+      ]
+    },
+    {
+      "id": "TASK-027",
+      "title": "Backend Domain Alignment: Security & Steam Subdomains, User Schemas & Adapters",
+      "layer": "backend",
+      "paths": [
+        "libs/domain",
+        "libs/application",
+        "libs/infrastructure",
+        "apps/api"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-026"
+      ]
+    },
+    {
+      "id": "TASK-028",
+      "title": "Move Backend Infrastructure from libs to apps/api Domain Modules",
+      "layer": "backend",
+      "paths": [
+        "apps/api",
+        "libs/infrastructure"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-027"
+      ]
+    },
+    {
+      "id": "TASK-029",
+      "title": "Refactor Backend to Domain-Centric Vertical Slices with Internal Layers, Remove libs/domain & libs/application",
+      "layer": "backend",
+      "paths": [
+        "apps/api",
+        "libs/domain",
+        "libs/application",
+        "tsconfig.json"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-028"
+      ]
+    },
+    {
+      "id": "TASK-030",
+      "title": "Extract Use Case Request/Response Models into Domain Models Folders per SRP",
+      "layer": "core",
+      "paths": [
+        "apps/api",
+        "apps/completed-steam"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-029"
+      ]
+    },
+    {
+      "id": "TASK-031",
+      "title": "Complete Bounded Contexts with 4 Layers Structure Across Backend and Frontend",
+      "layer": "core",
+      "paths": [
+        "apps/api",
+        "apps/completed-steam"
+      ],
+      "status": "DONE",
+      "assignedTo": "Agent-Antigravity",
+      "dependencies": [
+        "TASK-030"
+      ]
+    }
+  ]
+}

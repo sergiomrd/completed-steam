@@ -1,4 +1,4 @@
-import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 export interface WindowSize {
@@ -11,12 +11,12 @@ export interface WindowSize {
 })
 export class ScreenService {
 
-  private renderer: Renderer2;
+  private readonly rendererFactory = inject(RendererFactory2);
+  private readonly renderer: Renderer2;
   readonly windowSizeChange = new BehaviorSubject<WindowSize>({width: window.innerWidth, height: window.innerHeight});
 
-  constructor(rendererFactory: RendererFactory2) {
-
-    this.renderer = rendererFactory.createRenderer(null, null);
+  constructor() {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     this.renderer.listen(window, 'resize', (event: Event) => {
       this.setResponsive(event);
     });

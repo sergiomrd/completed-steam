@@ -1,52 +1,91 @@
-<div id="filters" class="row">
-  <div class="col-12 col-sm-8 col-md-8 col-lg-4 col-xl-4 search">
-    <div class="input-group">
-      <i class="fas fa-search search-icon" (click)="onSearch()"></i>
-      <input type="text" id="search" class="search form-control" placeholder="Search game" (keyup)="onKey($event)"
-        (keyup.enter)="onSearch()" />
+<div id="filters" class="flex flex-col md:flex-row md:items-center gap-4 text-steam-muted w-full select-none">
+  <!-- Search input -->
+  <div class="w-full md:w-72 lg:w-80 shrink-0">
+    <div class="relative flex items-center">
+      <input
+        type="text"
+        id="search"
+        [value]="searchText"
+        placeholder="Search game"
+        (keyup)="onKey($event)"
+        (keyup.enter)="onSearch()"
+        class="w-full bg-steam-surface text-white placeholder:text-steam-muted/60 text-sm border border-steam-muted/40 hover:border-steam-muted/70 focus:border-steam-blue focus:outline-none rounded-sm pl-3 pr-10 py-1.5 transition-colors"
+      />
+      <button
+        type="button"
+        (click)="onSearch()"
+        class="absolute right-0 top-0 bottom-0 px-3 flex items-center justify-center text-steam-muted hover:text-white hover:bg-steam-muted/20 transition-colors rounded-r-sm cursor-pointer border-0 bg-transparent"
+        aria-label="Search"
+      >
+        <i class="fas fa-search text-sm"></i>
+      </button>
     </div>
   </div>
-  <div *ngIf="!isMobile" class="col col-sm-12 col-md-12 col-lg col-xl  filters">
-    <div class="row">
-      <div class="col-auto filters-all">
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="all" name="all" (click)="setFilters(filters.All)"
-            [checked]="checkFilters.all" [disabled]="checkFilters.all">
-          <label class="custom-control-label" for="all">ALL</label>
-        </div>
-      </div>
-      <div class="col-auto filters-completed">
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="completed" name="completed"
-            (click)="setFilters(filters.Completed)" [checked]="checkFilters.completed"
-            [disabled]="checkFilters.completed">
-          <label class="custom-control-label" for="completed">COMPLETED</label>
-        </div>
-      </div>
-      <div class="col-auto filters-not-completed">
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="not-completed" name="not-completed"
-            (click)="setFilters(filters.NotCompleted)" [checked]="checkFilters.notCompleted"
-            [disabled]="checkFilters.notCompleted">
-          <label class="custom-control-label" for="not-completed">NOT COMPLETED</label>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="isMobile" class="col-12 filters">
-    <div class="row filter-row">
-      <div class="col filter filters-all" [ngClass]="{'active': checkFilters.all}" (click)="setFilters(filters.All)">
-        <p>ALL</p>
-      </div>
-      <div class="col filter filters-completed" [ngClass]="{'active': checkFilters.completed}"
-        (click)="setFilters(filters.Completed)">
-        <p>COMPLETED</p>
-      </div>
 
-      <div class="col filter filters-not-completed" [ngClass]="{'active': checkFilters.notCompleted}"
-        (click)="setFilters(filters.NotCompleted)">
-        <p>NOT COMPLETED</p>
-      </div>
-    </div>
+  <!-- Desktop Filters (Checkboxes) -->
+  <div class="hidden md:flex items-center gap-6 text-sm">
+    <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+      <input
+        type="checkbox"
+        id="all"
+        (click)="setFilters(filters.All)"
+        [checked]="checkFilters.all"
+        [disabled]="checkFilters.all"
+        class="w-4 h-4 rounded-xs border-steam-muted/50 bg-steam-surface text-steam-blue focus:ring-0 focus:ring-offset-0 cursor-pointer disabled:opacity-75 disabled:cursor-default"
+      />
+      <span [ngClass]="{'text-white font-medium': checkFilters.all, 'text-steam-muted hover:text-white': !checkFilters.all}">ALL</span>
+    </label>
+
+    <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+      <input
+        type="checkbox"
+        id="completed"
+        (click)="setFilters(filters.Completed)"
+        [checked]="checkFilters.completed"
+        [disabled]="checkFilters.completed"
+        class="w-4 h-4 rounded-xs border-steam-muted/50 bg-steam-surface text-steam-blue focus:ring-0 focus:ring-offset-0 cursor-pointer disabled:opacity-75 disabled:cursor-default"
+      />
+      <span [ngClass]="{'text-white font-medium': checkFilters.completed, 'text-steam-muted hover:text-white': !checkFilters.completed}">COMPLETED</span>
+    </label>
+
+    <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+      <input
+        type="checkbox"
+        id="not-completed"
+        (click)="setFilters(filters.NotCompleted)"
+        [checked]="checkFilters.notCompleted"
+        [disabled]="checkFilters.notCompleted"
+        class="w-4 h-4 rounded-xs border-steam-muted/50 bg-steam-surface text-steam-blue focus:ring-0 focus:ring-offset-0 cursor-pointer disabled:opacity-75 disabled:cursor-default"
+      />
+      <span [ngClass]="{'text-white font-medium': checkFilters.notCompleted, 'text-steam-muted hover:text-white': !checkFilters.notCompleted}">NOT COMPLETED</span>
+    </label>
+  </div>
+
+  <!-- Mobile Filters (Segmented Pill Bar) -->
+  <div class="flex md:hidden w-full divide-x divide-steam-surface rounded-sm overflow-hidden border border-steam-border/40 text-xs">
+    <button
+      type="button"
+      (click)="setFilters(filters.All)"
+      class="flex-1 py-2 text-center transition-colors cursor-pointer border-0"
+      [ngClass]="checkFilters.all ? 'bg-steam-muted/40 text-white font-semibold' : 'bg-steam-surface/60 text-steam-muted hover:bg-steam-surface hover:text-white'"
+    >
+      ALL
+    </button>
+    <button
+      type="button"
+      (click)="setFilters(filters.Completed)"
+      class="flex-1 py-2 text-center transition-colors cursor-pointer border-0"
+      [ngClass]="checkFilters.completed ? 'bg-steam-muted/40 text-white font-semibold' : 'bg-steam-surface/60 text-steam-muted hover:bg-steam-surface hover:text-white'"
+    >
+      COMPLETED
+    </button>
+    <button
+      type="button"
+      (click)="setFilters(filters.NotCompleted)"
+      class="flex-1 py-2 text-center transition-colors cursor-pointer border-0"
+      [ngClass]="checkFilters.notCompleted ? 'bg-steam-muted/40 text-white font-semibold' : 'bg-steam-surface/60 text-steam-muted hover:bg-steam-surface hover:text-white'"
+    >
+      NOT COMPLETED
+    </button>
   </div>
 </div>

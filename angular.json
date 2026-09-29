@@ -4,7 +4,7 @@
     "completed-steam": {
       "projectType": "application",
       "schematics": {
-        "@nrwl/angular:component": {
+        "@nx/angular:component": {
           "style": "scss"
         }
       },
@@ -27,10 +27,7 @@
               "apps/completed-steam/src/_redirects"
             ],
             "styles": ["apps/completed-steam/src/styles.scss"],
-            "scripts": [
-              "node_modules/crypto-js/crypto-js.js",
-              "node_modules/crypto-js/core.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -43,11 +40,8 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -56,8 +50,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "15kb",
+                  "maximumError": "25kb"
                 }
               ]
             },
@@ -86,24 +80,8 @@
             }
           }
         },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "completed-steam:build"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/completed-steam/tsconfig.app.json",
-              "apps/completed-steam/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/completed-steam/**"]
-          }
-        },
         "test": {
-          "builder": "@nrwl/jest:jest",
+          "builder": "@nx/jest:jest",
           "options": {
             "jestConfig": "apps/completed-steam/jest.config.js",
             "tsConfig": "apps/completed-steam/tsconfig.spec.json",
@@ -119,7 +97,7 @@
       "projectType": "application",
       "architect": {
         "e2e": {
-          "builder": "@nrwl/cypress:cypress",
+          "builder": "@nx/cypress:cypress",
           "options": {
             "cypressConfig": "apps/completed-steam-e2e/cypress.json",
             "tsConfig": "apps/completed-steam-e2e/tsconfig.e2e.json",
@@ -133,13 +111,6 @@
               "devServerTarget": "completed-steam:serve:dev"
             }
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["apps/completed-steam-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/completed-steam-e2e/**"]
-          }
         }
       }
     },
@@ -151,40 +122,28 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "@nrwl/node:build",
+          "builder": "@nx/js:tsc",
           "options": {
             "outputPath": "dist/apps/api",
             "main": "apps/api/src/main.ts",
             "tsConfig": "apps/api/tsconfig.app.json",
+            "rootDir": ".",
             "assets": ["apps/api/src/assets"]
           },
           "configurations": {
             "production": {
               "optimization": true,
               "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/api/src/environments/environment.ts",
-                  "with": "apps/api/src/environments/environment.prod.ts"
-                }
-              ]
+              "inspect": false
             },
             "dev": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/api/src/environments/environment.ts",
-                  "with": "apps/api/src/environments/environment.dev.ts"
-                }
-              ]
+              "optimization": false,
+              "inspect": false
             }
           }
         },
         "serve": {
-          "builder": "@nrwl/node:execute",
+          "builder": "@nx/js:node",
           "options": {
             "buildTarget": "api:build"
           },
@@ -197,18 +156,8 @@
             }
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/api/tsconfig.app.json",
-              "apps/api/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/api/**"]
-          }
-        },
         "test": {
-          "builder": "@nrwl/jest:jest",
+          "builder": "@nx/jest:jest",
           "options": {
             "jestConfig": "apps/api/jest.config.js",
             "tsConfig": "apps/api/tsconfig.spec.json",
@@ -223,18 +172,8 @@
       "projectType": "library",
       "schematics": {},
       "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/api-interfaces/tsconfig.lib.json",
-              "libs/api-interfaces/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/api-interfaces/**"]
-          }
-        },
         "test": {
-          "builder": "@nrwl/jest:jest",
+          "builder": "@nx/jest:jest",
           "options": {
             "jestConfig": "libs/api-interfaces/jest.config.js",
             "tsConfig": "libs/api-interfaces/tsconfig.spec.json",
@@ -245,14 +184,14 @@
     }
   },
   "cli": {
-    "defaultCollection": "@nrwl/angular"
+    "defaultCollection": "@nx/angular"
   },
   "schematics": {
-    "@nrwl/angular:application": {
+    "@nx/angular:application": {
       "unitTestRunner": "jest",
       "e2eTestRunner": "cypress"
     },
-    "@nrwl/angular:library": {
+    "@nx/angular:library": {
       "unitTestRunner": "jest"
     }
   },

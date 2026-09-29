@@ -1,9 +1,15 @@
 module.exports = {
-  testMatch: ['**/+(*.)+(spec|test).+(ts|js)?(x)'],
-  transform: {
-    '^.+\\.(ts|js|html)$': 'ts-jest'
-  },
-  resolver: '@nrwl/jest/plugins/resolver',
-  moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageReporters: ['html']
+  projects: [
+    '<rootDir>/apps/completed-steam/jest.config.js',
+    {
+      displayName: 'api',
+      testMatch: ['<rootDir>/apps/api/**/*.spec.ts'],
+      transform: {
+        '^.+\\.(ts|js)$': 'ts-jest'
+      },
+      moduleNameMapper: {
+        '^@completed-steam/(.*)$': '<rootDir>/libs/$1/src/index.ts'
+      }
+    }
+  ]
 };

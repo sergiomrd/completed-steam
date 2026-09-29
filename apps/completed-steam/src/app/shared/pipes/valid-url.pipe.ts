@@ -1,25 +1,20 @@
 import { HttpClient } from '@angular/common/http';
-import { Pipe, PipeTransform } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { Pipe, PipeTransform, inject } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 
 @Pipe({
-  name: 'validUrl'
+  name: 'validUrl',
+  standalone: true
 })
 export class ValidUrlPipe implements PipeTransform {
-    /**
-     * returns the string image url as CSS background url
-     * @param value Image URL
-     */
-  constructor(private http: HttpClient){}
+  private readonly http = inject(HttpClient);
 
-  async transform(url: string): Promise<any> {
-    await this.http.get(url).pipe(map(res => {
-      if(res) {
-        return true;
-      }
-
+  async transform(url: string): Promise<boolean> {
+    try {
+      await firstValueFrom(this.http.get(url));
+      return true;
+    } catch {
       return false;
-    }));
-
+    }
   }
 }

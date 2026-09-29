@@ -1,8 +1,4 @@
-import { Game } from '../../../../../../api/src/app/models/game.interface';
-
-export const SAMPLE_USER = {
-
-}
+import { Game } from '../../../domain';
 
 export const SAMPLE_GAMES: Game[] = [{
         "appid": 240,

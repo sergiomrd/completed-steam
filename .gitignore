@@ -5,6 +5,10 @@
 /tmp
 /out-tsc
 
+# cache directories
+.angular/
+.nx/
+
 # dependencies
 /node_modules
 

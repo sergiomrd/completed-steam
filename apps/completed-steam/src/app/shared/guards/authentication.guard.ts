@@ -1,22 +1,28 @@
-import { EncryptService } from './../services/encrypt/encrypt.service';
-import {Injectable} from '@angular/core';
-import {CanActivate, Router, ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
-import { Location } from '@angular/common';
+import { Injectable, inject } from '@angular/core';
+import {
+  CanActivate,
+  Router,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot
+} from '@angular/router';
+import { ManageSessionUseCase } from '../../use-cases';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthorizatedGuard implements CanActivate {
-  constructor(private router: Router, private encrypService: EncryptService) {}
+  private readonly router = inject(Router);
+  private readonly sessionUseCase = inject(ManageSessionUseCase);
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const id: string = route.params["id"];
-    const encrypted = this.encrypService.decrypt(id);
-    if(id && id.includes('sample') || encrypted.length >= 17) {
-        localStorage.setItem('id', id);
-        return true;
+  canActivate(route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): boolean {
+    const id: string = route.params['id'];
+    const session = this.sessionUseCase.parseId(id);
+    if (session) {
+      this.sessionUseCase.saveSession(id);
+      return true;
     } else {
-        this.router.navigate(['/login'])
+      this.router.navigate(['/login']);
+      return false;
     }
-
-    return false;
   }
 }

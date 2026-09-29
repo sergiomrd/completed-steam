@@ -1,14 +1,35 @@
-import { UserSchema } from './../models/schemas/user.schema';
-import { DatabaseService } from './../services/database.service';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { EncryptService } from '../services/encrypt.service';
+import { UserSchema, MongoUserRepository, USER_REPOSITORY_TOKEN } from '../user';
+import { CryptoJsEncryptionAdapter, ENCRYPTION_SERVICE_TOKEN } from '../security';
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+const MONGO_URI =
+  process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/completed-steam';
 
 @Module({
-imports: [
-MongooseModule.forRoot('mongodb+srv://marodiense:OrKg86Iwmgvxo99G@completed-steam-2qxtl.azure.mongodb.net/completed-steam?retryWrites=true&w=majority'), 
-MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])],
-  providers: [ DatabaseService, EncryptService],
-  exports: [ DatabaseService],
+  imports: [
+    MongooseModule.forRoot(MONGO_URI),
+    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])
+  ],
+  providers: [
+    MongoUserRepository,
+    CryptoJsEncryptionAdapter,
+    {
+      provide: USER_REPOSITORY_TOKEN,
+      useExisting: MongoUserRepository
+    },
+    {
+      provide: ENCRYPTION_SERVICE_TOKEN,
+      useExisting: CryptoJsEncryptionAdapter
+    }
+  ],
+  exports: [
+    MongoUserRepository,
+    CryptoJsEncryptionAdapter,
+    USER_REPOSITORY_TOKEN,
+    ENCRYPTION_SERVICE_TOKEN
+  ]
 })
 export class DatabaseModule {}

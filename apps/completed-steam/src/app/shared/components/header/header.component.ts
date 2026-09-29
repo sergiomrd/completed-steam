@@ -1,53 +1,55 @@
-import { USER_SAMPLE } from './../../models/const/sample.const';
-import { PlayerSummaries } from './../../../../../../api/src/app/models/user.interface';
-import { HttpClient } from '@angular/common/http';
-import { UserService } from './../../services/user/user.service';
-import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../../environments/environment';
-import { Router } from '@angular/router';
-import { EncryptService } from '../../services/encrypt/encrypt.service';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
+import { PlayerSummaries } from '@completed-steam/api-interfaces';
+import { UserStore } from '../../../stores';
+import { UserService } from '../../services/user/user.service';
 import { DeviceDetectionUtil } from '../../utils/device-detection.util';
 
 @Component({
   selector: 'completed-steam-header',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  userInfo: PlayerSummaries;
-  isMobile: boolean;
-  constructor(private userService: UserService, private readonly http: HttpClient, private router: Router, private encryptService: EncryptService) {
+  private readonly userStore = inject(UserStore);
+  private readonly router = inject(Router);
+  private readonly userService = inject(UserService);
+
+  isMobile = false;
+
+  get userInfo(): PlayerSummaries | null {
+    const profile = this.userStore.profile();
+    if (profile) {
+      this.userService.userInfo = profile;
+    }
+    return profile;
+  }
+
+  constructor() {
     DeviceDetectionUtil.isMobile.subscribe((value: boolean) => (this.isMobile = value));
-   }
+  }
 
-  ngOnInit(): void {
-    let id = localStorage.getItem('id');
-
-    if(id.includes('sample')) {
-      this.loadSampleUser();
-    } else {
-      id = this.encryptService.decrypt(localStorage.getItem('id'));
-      this.getUserInfo(id);
+  async ngOnInit(): Promise<void> {
+    const storedId = localStorage.getItem('id');
+    if (storedId) {
+      this.userStore.initSession(storedId);
+      await this.userStore.loadProfile();
     }
   }
 
-  getUserInfo(id: string) {
-    this.http.get(`${environment.API}api/user`, {params: {id: this.encryptService.encrypt(id)}}).subscribe(response => {
-      if(response && response['players']) {
-        const player: PlayerSummaries = response['players'][0];
-        this.userInfo = player;
-      }
-    })
+  goToProfile(): void {
+    const url = this.userStore.profileUrl();
+    if (url) {
+      window.open(url, '_blank');
+    }
   }
 
-  loadSampleUser() { this.userInfo = USER_SAMPLE}
-
-  goToProfile(){
-    window.open(this.userInfo.profileurl, '_blank');
-  }
-
-  logout(){
-    localStorage.removeItem('id');
+  logout(): void {
+    this.userStore.logout();
+    this.userService.userInfo = null;
     this.router.navigate(['/login']);
   }
 }

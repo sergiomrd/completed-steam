@@ -1,79 +1,89 @@
-<div *ngIf="!isMobile" id="header" class="container-fluid">
-  <div *ngIf="this.userInfo" class="row header">
-    <div class="col-md-auto col-sm-auto header-avatar">
-      <a [href]="this.userInfo.profileurl"><img [src]="this.userInfo.avatar" width="32" height="32"></a>
+<header id="header" class="w-full bg-steam-surface border-b border-steam-border/30 text-steam-muted select-none">
+  <!-- Desktop Layout (md and up) -->
+  <div class="hidden md:flex items-center justify-between h-[50px] px-4 lg:px-6">
+    <!-- Left: User info -->
+    <div class="flex items-center gap-3">
+      @if (userInfo) {
+        <a [href]="userInfo.profileurl" target="_blank" rel="noopener noreferrer" class="block shrink-0">
+          <img [src]="userInfo.avatar" width="32" height="32" alt="Avatar" class="rounded-sm border border-steam-muted/60 hover:border-steam-cyan transition-colors cursor-pointer">
+        </a>
+        <span class="text-steam-cyan font-medium text-sm truncate max-w-[150px]">{{userInfo.personaname}}</span>
+        <button type="button" (click)="logout()" class="text-xs text-steam-muted hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0 ml-1">
+          Logout
+        </button>
+      }
     </div>
-    <div class="col-md-auto col-sm-auto header-name">
-      <p class="name">{{this.userInfo.personaname}}</p>
-    </div>
-    <div class="col-md-auto col-sm-auto header-logout">
-      <p class="text" (click)="logout()">Logout</p>
-    </div>
-    <div class="col-md col-sm-auto header-title">
-      <p class="text">IS STEAM C<i class="far fa-check-circle icon"></i>MPLETED?</p>
-    </div>
-    <div class="col-md-3 col-lg-2 col-sm header-social">
-      <div class="row justify-content-end">
-        <div class="col-md-12 col-xl-10 col-sm-12 d-flex justify-content-around">
-          <a href="https://www.linkedin.com/in/sergiomalonda/"><i class="fab fa-linkedin"></i></a>
-          <a href="https://twitter.com/Sergiomrd"><i class="fab fa-twitter"></i></a>
-          <a href="https://www.instagram.com/sergiomalonda/"><i class="fab fa-instagram"></i></a>
-          <a href="mailto:sermalonda@gmail.com"><i class="fas fa-envelope"></i></a>
 
-          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-            <input type="hidden" name="cmd" value="_donations" />
-            <input type="hidden" name="business" value="4VEVCJ2ACL6D2" />
-            <input type="hidden" name="item_name" value="Buy me a coffee" />
-            <input type="hidden" name="currency_code" value="USD" />
-            <input type="submit" border="0" value="Donate" name="submit"
-              title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-          </form>
+    <!-- Center: Logo -->
+    <div class="font-brand text-lg text-white/90 tracking-wide flex items-center gap-0.5">
+      <span>IS STEAM C</span>
+      <i class="far fa-check-circle text-steam-muted opacity-60 text-[0.8em]"></i>
+      <span>MPLETED?</span>
+    </div>
+
+    <!-- Right: Social Links & Donate -->
+    <div class="flex items-center gap-4 text-steam-muted">
+      <a href="https://www.linkedin.com/in/sergiomalonda/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors text-sm" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="https://twitter.com/Sergiomrd" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors text-sm" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://www.instagram.com/sergiomalonda/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors text-sm" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="mailto:sermalonda@gmail.com" class="hover:text-white transition-colors text-sm" aria-label="Email"><i class="fas fa-envelope"></i></a>
+
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="inline-flex items-center">
+        <input type="hidden" name="cmd" value="_donations" />
+        <input type="hidden" name="business" value="4VEVCJ2ACL6D2" />
+        <input type="hidden" name="item_name" value="Buy me a coffee" />
+        <input type="hidden" name="currency_code" value="USD" />
+        <input type="submit" value="Donate" name="submit"
+          class="px-3 py-0.5 bg-steam-base hover:bg-steam-muted/30 text-steam-muted hover:text-white border border-steam-border/60 hover:border-steam-muted rounded-full text-xs cursor-pointer transition-all"
+          title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+      </form>
+    </div>
+  </div>
+
+  <!-- Mobile Layout (below md) -->
+  <div class="flex flex-col md:hidden py-3 px-4 gap-3 text-center">
+    <!-- Title -->
+    <div class="font-brand text-base text-white/90 tracking-wide flex items-center justify-center gap-0.5">
+      <span>IS STEAM C</span>
+      <i class="far fa-check-circle text-steam-muted opacity-60 text-[0.8em]"></i>
+      <span>MPLETED?</span>
+    </div>
+
+    <div class="h-px w-full bg-gradient-to-r from-transparent via-steam-border/30 to-transparent"></div>
+
+    <!-- Social Links & Donate -->
+    <div class="flex items-center justify-center gap-5 text-steam-muted text-sm">
+      <a href="https://www.linkedin.com/in/sergiomalonda/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="https://twitter.com/Sergiomrd" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://www.instagram.com/sergiomalonda/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="mailto:sermalonda@gmail.com" class="hover:text-white transition-colors" aria-label="Email"><i class="fas fa-envelope"></i></a>
+
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="inline-flex items-center">
+        <input type="hidden" name="cmd" value="_donations" />
+        <input type="hidden" name="business" value="4VEVCJ2ACL6D2" />
+        <input type="hidden" name="item_name" value="Buy me a coffee" />
+        <input type="hidden" name="currency_code" value="USD" />
+        <input type="submit" value="Donate" name="submit"
+          class="px-3 py-0.5 bg-steam-base hover:bg-steam-muted/30 text-steam-muted hover:text-white border border-steam-border/60 hover:border-steam-muted rounded-full text-xs cursor-pointer transition-all"
+          title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+      </form>
+    </div>
+
+    @if (userInfo) {
+      <div class="h-px w-full bg-gradient-to-r from-transparent via-steam-border/30 to-transparent"></div>
+
+      <!-- User bar mobile -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <a [href]="userInfo.profileurl" target="_blank" rel="noopener noreferrer" class="shrink-0">
+            <img [src]="userInfo.avatar" width="28" height="28" alt="Avatar" class="rounded-sm border border-steam-muted/60">
+          </a>
+          <span class="text-steam-cyan font-medium text-xs truncate max-w-[150px]">{{userInfo.personaname}}</span>
         </div>
+        <button type="button" (click)="logout()" class="text-xs text-steam-muted hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0">
+          Logout
+        </button>
       </div>
-    </div>
+    }
   </div>
-</div>
-
-
-<div *ngIf="isMobile" id="header" class="container-fluid">
-  <div class="row title">
-    <div class="col-12 header-title">
-      <p class="text">IS STEAM C<i class="far fa-check-circle icon"></i>MPLETED?</p>
-    </div>
-  </div>
-  <div class="line"></div>
-  <div class="row social">
-    <div class="col header-social">
-      <div class="row justify-content-end">
-        <div class="col-12 d-flex justify-content-around">
-          <a href="https://www.linkedin.com/in/sergiomalonda/"><i class="fab fa-linkedin"></i></a>
-          <a href="https://twitter.com/Sergiomrd"><i class="fab fa-twitter"></i></a>
-          <a href="https://www.instagram.com/sergiomalonda/"><i class="fab fa-instagram"></i></a>
-          <a href="mailto:sermalonda@gmail.com"><i class="fas fa-envelope"></i></a>
-
-          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-            <input type="hidden" name="cmd" value="_donations" />
-            <input type="hidden" name="business" value="4VEVCJ2ACL6D2" />
-            <input type="hidden" name="item_name" value="Buy me a coffee" />
-            <input type="hidden" name="currency_code" value="USD" />
-            <input type="submit" border="0" value="Donate" name="submit"
-              title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="line"></div>
-  <div *ngIf="this.userInfo" class="row header">
-    <div class="col-auto header-avatar">
-      <a [href]="this.userInfo.profileurl"><img [src]="this.userInfo.avatar" width="32" height="32"></a>
-    </div>
-    <div class="col-auto header-name">
-      <p class="name">{{this.userInfo.personaname}}</p>
-    </div>
-    <div class="col header-logout">
-      <p class="text" (click)="logout()">Logout</p>
-    </div>
-  </div>
-</div>
-<div class="line"></div>
+</header>

@@ -1,61 +1,56 @@
-import { Filters, CheckFilters } from './../../models/filters.interface';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Filters, CheckFilters } from '../../../domain';
+import { FiltersStore } from '../../../stores';
 import { DeviceDetectionUtil } from '../../utils/device-detection.util';
 
 @Component({
   selector: 'completed-steam-filters',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.scss']
 })
-export class FiltersComponent implements OnInit {
-  filters: typeof Filters;
-  checkFilters: CheckFilters;
-  searchText: string;
-  isMobile: boolean;
+export class FiltersComponent {
+  readonly filtersStore = inject(FiltersStore);
 
-  @Output() filtered = new EventEmitter();
-  @Output() search = new EventEmitter();
+  filters: typeof Filters = Filters;
+  isMobile: boolean = false;
+
+  get checkFilters(): CheckFilters {
+    return this.filtersStore.checkFilters();
+  }
+
+  get searchText(): string {
+    return this.filtersStore.searchText();
+  }
+
+  set searchText(value: string) {
+    this.filtersStore.searchText.set(value);
+  }
+
+  @Output() filtered = new EventEmitter<Filters>();
+  @Output() search = new EventEmitter<string>();
 
   constructor() {
     DeviceDetectionUtil.isMobile.subscribe((value: boolean) => (this.isMobile = value));
   }
 
-  ngOnInit(): void {
-    this.searchText = '';
-    this.filters = Filters;
-    this.checkFilters = {
-      all: false,
-      completed: false,
-      notCompleted: true,
-      search: false
-    };
-  }
-
-  setFilters(value: Filters) {
-    this.changeCheckBoxes(value);
+  setFilters(value: Filters): void {
+    this.filtersStore.setFilter(value);
     this.filtered.emit(value);
   }
 
-  changeCheckBoxes(value: Filters) {
-    for (const check in this.checkFilters) {
-      if (Object.prototype.hasOwnProperty.call(this.checkFilters, check)) {
-        if (check === value) {
-          this.checkFilters[check] = true;
-        } else {
-          this.checkFilters[check] = false;
-        }
-      }
+  onSearch(): void {
+    const text = this.filtersStore.searchText();
+    if (text && text.length > 2) {
+      this.filtersStore.setSearch(text);
+      this.search.emit(text);
     }
   }
 
-  onSearch() {
-    if (this.searchText && this.searchText.length > 2) {
-      this.changeCheckBoxes(Filters.Search);
-      this.search.emit(this.searchText);
-    }
-  }
-
-  onKey(value: KeyboardEvent) {
-    this.searchText = (value.target as HTMLInputElement).value;
+  onKey(event: KeyboardEvent): void {
+    this.filtersStore.searchText.set((event.target as HTMLInputElement).value);
   }
 }

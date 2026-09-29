@@ -1,36 +1,17 @@
 {
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "npmScope": "completed-steam",
-  "implicitDependencies": {
-    "angular.json": "*",
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"],
+      "cache": true
     },
-    "tsconfig.json": "*",
-    "tslint.json": "*",
-    "nx.json": "*"
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
-      "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
-      }
+    "test": {
+      "cache": true
+    },
+    "lint": {
+      "cache": true
     }
   },
-  "projects": {
-    "completed-steam": {
-      "tags": []
-    },
-    "completed-steam-e2e": {
-      "tags": [],
-      "implicitDependencies": ["completed-steam"]
-    },
-    "api": {
-      "tags": []
-    },
-    "api-interfaces": {
-      "tags": []
-    }
-  }
+  "defaultProject": "completed-steam"
 }

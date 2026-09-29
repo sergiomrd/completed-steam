@@ -1,40 +1,54 @@
-<section id="login" class="container-fluid">
-  <div class="row login-container">
-    <div class="col-12 title">
-        <div class="row">
-            <div class="col-12">
-                <p class="text">IS STEAM C<i class="far fa-check-circle icon"></i>MPLETED?</p>
-            </div>
-            <div class="col-12">
-              <p class="sub-text">Keep track of your games</p>
-          </div>
-        </div>
+<section id="login" class="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-steam-slate to-steam-dark text-steam-muted select-none px-4">
+  <div class="w-full max-w-md flex flex-col items-center text-center">
+    <!-- Title Block -->
+    <div class="mb-10 sm:mb-14">
+      <h1 class="font-brand font-bold text-3xl sm:text-4xl md:text-5xl text-white tracking-wide flex items-center justify-center">
+        <span>IS STEAM C</span>
+        <i class="far fa-check-circle opacity-60 text-[0.8em] mx-0.5 text-steam-muted"></i>
+        <span>MPLETED?</span>
+      </h1>
+      <p class="font-sans text-base sm:text-lg font-light text-steam-muted/70 mt-2">
+        Keep track of your games
+      </p>
     </div>
-    <div class="col-12">
-      <div class="row">
-        <div class="col-12 login-steam">
-          <div class="row justify-content-center">
-            <div class="col-auto steam-container" (click)="login()">
-              <i class="fab fa-steam-symbol icon"></i>
-              <p class="text">Sign through STEAM</p>
-            </div>
-          </div>
-          <p class="error" *ngIf="showLoginError">An error has ocurred</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 or-container">
-          <div class="left"></div>
-          <p>OR</p>
-          <div class="right"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 sample-container">
-          <p class="text">See a <span class="text-sample" (click)="goToSample()">sample</span></p>
-        </div>
+
+    <!-- Actions Block -->
+    <div class="w-full flex flex-col items-center">
+      <!-- Steam Login Button -->
+      <button
+        type="button"
+        (click)="login()"
+        class="inline-flex items-center justify-center gap-3 px-6 py-3 bg-steam-surface hover:bg-steam-surface-hover text-white border border-steam-muted/50 rounded-sm shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 cursor-pointer w-auto"
+      >
+        <i class="fab fa-steam-symbol text-xl text-steam-cyan"></i>
+        <span class="font-medium tracking-wide">Sign through STEAM</span>
+      </button>
+
+      @if (showLoginError) {
+        <p class="text-red-400 text-sm mt-3">An error has occurred</p>
+      }
+
+      <!-- OR Divider -->
+      <div class="flex items-center justify-center w-full my-6 text-xs text-steam-muted/70 gap-4">
+        <div class="h-px w-16 bg-gradient-to-r from-transparent to-steam-muted/40"></div>
+        <span>OR</span>
+        <div class="h-px w-16 bg-gradient-to-l from-transparent to-steam-muted/40"></div>
       </div>
 
+      <!-- Sample link -->
+      <div>
+        <p class="text-sm text-steam-muted">
+          See a
+          <button
+            type="button"
+            (click)="goToSample()"
+            class="text-steam-cyan hover:text-white underline cursor-pointer transition-colors bg-transparent border-0 p-0 font-normal inline"
+          >
+            sample
+          </button>
+        </p>
+      </div>
     </div>
   </div>
 </section>
+

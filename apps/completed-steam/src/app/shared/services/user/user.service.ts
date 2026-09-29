@@ -1,20 +1,21 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
+import { PlayerSummaries } from '@completed-steam/api-interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private _userInfo: any;
+  private readonly _userInfo = signal<PlayerSummaries | null>(null);
 
-  constructor() {
-
+  get userInfo(): PlayerSummaries | null {
+    return this._userInfo();
   }
 
-  set userInfo(value: any){ 
-    this._userInfo = value;
+  set userInfo(value: PlayerSummaries | null) {
+    this._userInfo.set(value);
   }
 
-  get userInfo() {
-    return this._userInfo;
+  userInfoSignal() {
+    return this._userInfo.asReadonly();
   }
 }

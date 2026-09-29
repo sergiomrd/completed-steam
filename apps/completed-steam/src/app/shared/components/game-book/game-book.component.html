@@ -1,13 +1,57 @@
-<div id="game-book" class="row">
-  <div class="col-12 game-book" (click)="setCompleted()">
-    <div class="background" [style.background-image]="game?.background?.url | bgImage"
-      [ngClass]="{'completed' : this.game.completed, 'mode-blur': game?.background?.type > 0, 'no-image': game?.background?.type === -1}">
-    <p class="no-image-text" *ngIf="game?.background?.type === -1">{{this.game.name}}</p></div>
-    <div *ngIf="game?.background?.type > 0" class="header" [style.background-image]="game?.background?.url | bgImage"
-      [ngClass]="{'completed' : this.game.completed}"></div>
-    <i *ngIf="game.completed" class="fas fa-check-circle"></i>
-  </div>
-  <div *ngIf="game?.background?.type >= 0 || game?.background?.type === -1 && this.game.completed" class="col-12 name-container">
-    <p class="name">{{this.game.name}}</p>
+<div
+  id="game-book"
+  (click)="setCompleted()"
+  (keyup.enter)="setCompleted()"
+  tabindex="0"
+  role="button"
+  [attr.aria-label]="game?.name + (game?.completed ? ' (completed)' : ' (not completed)')"
+  class="group relative w-full aspect-[2/3] overflow-hidden rounded-xs border border-black/40 shadow-[0_6px_11px_-4px_rgba(5,5,5,0.9)] bg-steam-surface transition-all duration-200 hover:-translate-y-1 hover:shadow-2xl cursor-pointer select-none focus:outline-none focus:ring-2 focus:ring-steam-cyan"
+>
+  <!-- Artwork display -->
+  @if (game?.background?.type === -1) {
+    <!-- Fallback when no image -->
+    <div
+      class="w-full h-full flex items-center justify-center p-3 text-center bg-[#1d252f] transition-all"
+      [ngClass]="{'filter grayscale-[75%] brightness-75': game.completed}"
+    >
+      <p class="text-steam-cyan/80 text-xs sm:text-sm font-medium line-clamp-4">
+        {{ game?.name }}
+      </p>
+    </div>
+  } @else if ((game?.background?.type ?? 0) > 0) {
+    <!-- Header banner with blur background -->
+    <div
+      class="absolute inset-0 bg-cover bg-center filter blur-md scale-110 opacity-70 transition-all"
+      [style.background-image]="game?.background?.url | bgImage"
+      [ngClass]="{'grayscale-[80%] brightness-75 blur-lg': game.completed}"
+    ></div>
+    <div
+      class="absolute inset-x-0 top-1/2 -translate-y-1/2 h-24 sm:h-32 bg-contain bg-center bg-no-repeat z-10 transition-all"
+      [style.background-image]="game?.background?.url | bgImage"
+      [ngClass]="{'filter grayscale-[80%] brightness-75': game.completed}"
+    ></div>
+  } @else {
+    <!-- Full portrait capsule cover -->
+    <div
+      class="w-full h-full bg-cover bg-center transition-all duration-300"
+      [style.background-image]="game?.background?.url | bgImage"
+      [ngClass]="{'filter grayscale-[80%] brightness-75 blur-[1px]': game.completed}"
+    ></div>
+  }
+
+  <!-- Completed Badge Overlay -->
+  @if (game.completed) {
+    <div class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+      <i class="fas fa-check-circle text-4xl sm:text-5xl text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"></i>
+    </div>
+  }
+
+  <!-- Hover Game Title Tooltip (Desktop) & Bottom Badge -->
+  <div
+    class="absolute bottom-0 inset-x-0 p-1.5 z-30 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 pointer-events-none"
+  >
+    <p class="text-[11px] font-medium text-white bg-steam-cyan/95 text-center py-1 px-1.5 rounded-xs truncate shadow-md">
+      {{ game?.name }}
+    </p>
   </div>
 </div>

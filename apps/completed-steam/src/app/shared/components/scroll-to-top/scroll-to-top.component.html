@@ -1,5 +1,12 @@
-<div class="scroll-to-top" [ngClass]="{'show-scrollTop': windowScrolled}">
-    <button (click)="scrollToTop()">
-        Go to top
-    </button>
-  </div>
+<div
+  class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 transition-all duration-300"
+  [ngClass]="windowScrolled ? 'opacity-90 pointer-events-auto translate-y-0' : 'opacity-0 pointer-events-none translate-y-3'"
+>
+  <button
+    type="button"
+    (click)="scrollToTop()"
+    class="w-64 sm:w-72 py-2 px-4 rounded-md font-medium text-steam-cyan bg-gradient-to-b from-[#1b71ca] to-[#01121b] border border-steam-blue/30 shadow-[0_4px_12px_rgba(0,0,0,0.6)] hover:brightness-110 active:scale-95 transition-all cursor-pointer text-sm tracking-wide text-center"
+  >
+    Go to top
+  </button>
+</div>

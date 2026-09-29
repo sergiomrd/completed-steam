@@ -1,19 +1,23 @@
-import { EncryptService } from './../services/encrypt/encrypt.service';
-import {Injectable} from '@angular/core';
-import {CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
+import { Injectable, inject } from '@angular/core';
+import {
+  CanActivate,
+  Router,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot
+} from '@angular/router';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class UnauthorizedGuard implements CanActivate {
-  constructor(private router: Router, private encryptService: EncryptService) {}
+  private readonly router = inject(Router);
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): boolean {
     const id = localStorage.getItem('id');
-
-    if(id) {
-        this.router.navigate(['/main', localStorage.getItem('id')])
-        return false;
+    if (id) {
+      this.router.navigate(['/main', id]);
+      return false;
     }
-
     return true;
   }
 }

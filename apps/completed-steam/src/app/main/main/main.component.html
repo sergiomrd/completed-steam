@@ -1,81 +1,78 @@
 <completed-steam-header></completed-steam-header>
-<div *ngIf="!isMobile" class="container-fluid">
-  <div class="row user-info">
-    <div class="col col-sm-8 col-md-8">
-      <completed-steam-filters (search)="searchGame($event)" (filtered)="setFilters($event)"></completed-steam-filters>
-    </div>
-    <div class="col remaining">
-      <p *ngIf="this.remainingGames"><span class="number">{{this.remainingGames}}</span> GAMES REMAINING</p>
-    </div>
-  </div>
-  <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
-    (scrolled)="onScroll()">
-    <div class="row row-cols-8 games-view">
-      <completed-steam-game-book class="col col-md-auto" *ngFor='let game of allGames' [game]="game"
-        (update)="updateBooks($event)"></completed-steam-game-book>
-      <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading && activeFilter !== 'completed'">
-        <p>It appears you don't have any game.</p>
-        <p class="sub-text">Maybe you should change the status of your <a href="https://support.steampowered.com/kb_article.php?ref=4113-YUDH-6401">profile privacy to Public.</a></p>
-      </div>
-      <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading && activeFilter === 'completed'">
-        <p>You don't have games completed. Click on a card to complete it.</p>
-      </div>
-    </div>
-    <div class="row spinner">
-      <div class="col-12">
-        <ngx-spinner name="full" bdColor="#01030c66" size="medium" color="#42bfff" type="ball-pulse"
-          [fullScreen]="true">
-          <p class="text">Loading games</p>
-        </ngx-spinner>
-      </div>
-    </div>
-    <div class="row spinner">
-      <div class="col-12">
-        <ngx-spinner name="pages" bdColor="#42bfff" size="small" color="#42bfff" type="ball-pulse" [fullScreen]="false">
-          <p class="text"></p>
-        </ngx-spinner>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div *ngIf="isMobile" class="container-fluid">
-  <div class="row user-info">
-    <div class="col filters">
-      <completed-steam-filters (search)="searchGame($event)" (filtered)="setFilters($event)"></completed-steam-filters>
+<main class="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+  <!-- Toolbar: Filters + Counter -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+    <div class="w-full sm:w-auto flex-1">
+      <completed-steam-filters
+        (search)="searchGame($event)"
+        (filtered)="setFilters($event)"
+      ></completed-steam-filters>
     </div>
-    <div class="col remaining">
-      <p *ngIf="this.remainingGames"><span class="number">{{this.remainingGames}}</span> GAMES REMAINING</p>
+
+    @if (remainingGames !== undefined) {
+      <div class="text-left sm:text-right shrink-0 text-xs sm:text-sm tracking-wider font-medium text-steam-muted">
+        <span class="text-white font-bold text-sm sm:text-base mr-1">{{ remainingGames }}</span>
+        <span>GAMES REMAINING</span>
+      </div>
+    }
+  </div>
+
+  <!-- Games Catalog Grid -->
+  <div
+    class="min-h-[50vh]"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="50"
+    (scrolled)="onScroll()"
+  >
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 sm:gap-4">
+      @for (game of allGames; track game.appid) {
+        <completed-steam-game-book
+          [game]="game"
+          (update)="updateBooks($event)"
+        ></completed-steam-game-book>
+      }
+    </div>
+
+    <!-- Empty States -->
+    @if (allGames.length === 0 && !loading && activeFilter !== 'completed') {
+      <div class="flex flex-col items-center justify-center py-20 sm:py-28 text-center text-steam-muted px-4">
+        <i class="fas fa-ghost text-4xl mb-4 text-steam-muted/50"></i>
+        <p class="text-lg sm:text-2xl font-medium text-white/90">It appears you don't have any games.</p>
+        <p class="text-xs sm:text-sm mt-2 text-steam-muted/80">
+          Maybe you should change the status of your
+          <a
+            href="https://support.steampowered.com/kb_article.php?ref=4113-YUDH-6401"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-steam-blue underline hover:text-white transition-colors"
+          >
+            profile privacy to Public.
+          </a>
+        </p>
+      </div>
+    }
+
+    @if (allGames.length === 0 && !loading && activeFilter === 'completed') {
+      <div class="flex flex-col items-center justify-center py-20 sm:py-28 text-center text-steam-muted px-4">
+        <i class="fas fa-trophy text-4xl mb-4 text-steam-muted/50"></i>
+        <p class="text-lg sm:text-2xl font-medium text-white/90">You don't have games completed yet.</p>
+        <p class="text-xs sm:text-sm mt-2 text-steam-muted/80">Click on any card to mark it as completed!</p>
+      </div>
+    }
+
+    <!-- Spinners -->
+    <ngx-spinner name="full" bdColor="#01030c80" size="medium" color="#42bfff" type="ball-pulse" [fullScreen]="true">
+      <p class="text-steam-blue mt-3 text-sm font-medium tracking-wide">Loading games...</p>
+    </ngx-spinner>
+
+    <div class="flex justify-center py-6">
+      <ngx-spinner name="pages" bdColor="transparent" size="small" color="#42bfff" type="ball-pulse" [fullScreen]="false">
+        <p class="text-steam-blue text-xs mt-2"></p>
+      </ngx-spinner>
     </div>
   </div>
-  <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
-    (scrolled)="onScroll()">
-    <div class="row row-cols-2 games-view">
-      <completed-steam-game-book class="col" *ngFor='let game of allGames' [game]="game" (update)="updateBooks($event)">
-      </completed-steam-game-book>
-      <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading && activeFilter !== 'completed'">
-        <p>It appears you don't have any game.</p>
-        <p class="sub-text">Maybe you should change the status of your <a href="https://support.steampowered.com/kb_article.php?ref=4113-YUDH-6401">profile privacy to Public.</a></p>
-      </div>
-      <div class="col-12 no-results" *ngIf="allGames.length === 0 && !loading && activeFilter === 'completed'">
-        <p>You don't have games completed. Click on a card to complete it.</p>
-      </div>
-    </div>
-    <div class="row spinner">
-      <div class="col-12">
-        <ngx-spinner name="full" bdColor="#01030c66" size="medium" color="#42bfff" type="ball-pulse"
-          [fullScreen]="true">
-          <p class="text">Loading games</p>
-        </ngx-spinner>
-      </div>
-    </div>
-    <div class="row spinner">
-      <div class="col-12">
-        <ngx-spinner name="pages" bdColor="#42bfff" size="small" color="#42bfff" type="ball-pulse" [fullScreen]="false">
-          <p class="text"></p>
-        </ngx-spinner>
-      </div>
-    </div>
-  </div>
-</div>
+</main>
+
 <completed-steam-scroll-top></completed-steam-scroll-top>
